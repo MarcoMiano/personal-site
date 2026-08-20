@@ -2,6 +2,7 @@
 
 import { access, readFile, readdir, stat } from 'node:fs/promises';
 import { extname, relative, resolve } from 'node:path';
+import { resolveBuildRevision } from '../src/lib/build.ts';
 import {
   contactEmail,
   getIndexablePaths,
@@ -10,12 +11,14 @@ import {
   locales,
   pageKeys,
   pages,
+  ui,
 } from '../src/lib/site.ts';
 
 const root = process.cwd();
 const output = resolve(root, 'dist');
 const origin = 'https://miano.cloud';
 const failures = [];
+const buildRevision = resolveBuildRevision(process.env.SITE_BUILD_REVISION);
 let profileImageCount = 0;
 const featuredProjectKeys = [
   'cocon-client',
@@ -168,6 +171,18 @@ for (const locale of locales) {
       `${label} needs exactly one h1`,
     );
     expect(
+      countMatches(html, /<h1\b[^>]*data-page-title[^>]*>/gi) === 1,
+      `${label} needs exactly one page-title hook on its h1`,
+    );
+    if (page === 'cv') {
+      expect(
+        /<h1\b[^>]*data-page-title[^>]*>\s*Curriculum vitae\s*<\/h1>/i.test(
+          html,
+        ),
+        `${label} needs the Curriculum vitae page heading`,
+      );
+    }
+    expect(
       countMatches(html, /<header\b[^>]*data-site-header[^>]*>/gi) === 1,
       `${label} needs exactly one site header`,
     );
@@ -179,6 +194,42 @@ for (const locale of locales) {
       countMatches(html, /<footer\b[^>]*data-site-footer[^>]*>/gi) === 1,
       `${label} needs exactly one site footer`,
     );
+    expect(
+      countMatches(html, /\sdata-build-revision=["'][^"']+["']/gi) === 1,
+      `${label} needs exactly one build-revision marker`,
+    );
+    expect(
+      html.includes(`data-build-revision="${buildRevision.value}"`),
+      `${label} has the wrong build-revision marker`,
+    );
+
+    const footer =
+      html.match(
+        /<footer\b[^>]*data-site-footer[^>]*>[\s\S]*?<\/footer>/i,
+      )?.[0] ?? '';
+    const footerText = footer
+      .replace(/<[^>]+>/g, '')
+      .replaceAll('&quot;', '"')
+      .replace(/\s+/g, ' ')
+      .trim();
+    expect(
+      footerText.includes(`build.sha = "${buildRevision.short}"`),
+      `${label} is missing the visible build revision`,
+    );
+    if (buildRevision.url) {
+      const accessibleLabel = `${ui[locale].footerBuildRevision}: ${buildRevision.value}`;
+      expect(
+        footer.includes(`href="${buildRevision.url}"`) &&
+          footer.includes(`aria-label="${accessibleLabel}"`) &&
+          footer.includes(`title="${accessibleLabel}"`),
+        `${label} is missing the linked full source revision`,
+      );
+    } else {
+      expect(
+        !footer.includes('footer-revision__link'),
+        `${label} must not link the LOCAL build fallback`,
+      );
+    }
     expect(
       /<main[^>]+id=["']main-content["'][^>]+data-page-main/i.test(html),
       `${label} is missing the stable main landmark`,

@@ -14,6 +14,36 @@ test('uses the same searchable CV heading in both locales', async ({
   }
 });
 
+test('exposes one honest build revision marker in the footer', async ({
+  page,
+}) => {
+  await page.goto('/en/');
+  const footer = page.locator('[data-site-footer]');
+  const revision = await footer.getAttribute('data-build-revision');
+
+  expect(revision).toMatch(/^(?:LOCAL|[0-9a-f]{40})$/);
+  await expect(page.locator('[data-build-revision]')).toHaveCount(1);
+
+  if (revision === 'LOCAL') {
+    await expect(footer.locator('.footer-revision')).toHaveText(
+      'build.sha = "LOCAL"',
+    );
+    await expect(footer.locator('.footer-revision a')).toHaveCount(0);
+  } else {
+    const link = footer.locator('.footer-revision__link');
+    const label = `Full source revision: ${revision}`;
+    await expect(link).toHaveAttribute(
+      'href',
+      `https://github.com/MarcoMiano/personal-site/commit/${revision}`,
+    );
+    await expect(link).toHaveAttribute('aria-label', label);
+    await expect(link).toHaveAttribute('title', label);
+    await expect(link.locator('[data-brand="github"]')).toHaveCount(1);
+    await link.focus();
+    await expect(link).toBeFocused();
+  }
+});
+
 test('keeps the skip link and page landmarks usable from the keyboard', async ({
   page,
 }) => {
@@ -88,6 +118,14 @@ test('keeps a full CV page within a narrow viewport', async ({ page }) => {
       page.evaluate(
         () => document.documentElement.scrollWidth <= window.innerWidth,
       ),
+    )
+    .toBe(true);
+  await expect
+    .poll(() =>
+      page.locator('[data-site-footer]').evaluate((footer) => {
+        const bounds = footer.getBoundingClientRect();
+        return bounds.left >= 0 && bounds.right <= window.innerWidth;
+      }),
     )
     .toBe(true);
 });

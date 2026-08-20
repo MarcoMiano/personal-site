@@ -45,6 +45,12 @@ scan. Playwright checks progressive enhancement and interactions in Chromium,
 Firefox, and WebKit. CI runs this gate and packages the resulting `dist/`
 directory only after all checks succeed.
 
+CI supplies the full commit hash through the build-time-only
+`SITE_BUILD_REVISION` environment variable. The build rejects values that are
+not exactly 40 lowercase hexadecimal characters; when the variable is absent,
+local output labels itself `LOCAL`. The generated footer contains the revision,
+so the browser performs no source lookup.
+
 The CI package is deterministic: files are sorted, timestamps use the commit
 timestamp, ownership is normalized, and gzip metadata is omitted. The archive
 and its SHA-256 sidecar are retained as `personal-site-<commit>` for 30 days. CI

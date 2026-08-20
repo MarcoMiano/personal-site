@@ -1626,6 +1626,21 @@ h1 {
   color: var(--ink);
 }
 
+.footer-revision {
+  display: inline-flex;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+.footer-revision__link {
+  gap: 0.35rem;
+}
+
+.footer-revision__link .external-brand-icon {
+  width: 1rem;
+  height: 1rem;
+}
+
 .footer-nav ul {
   gap-inline: 1rem;
 }

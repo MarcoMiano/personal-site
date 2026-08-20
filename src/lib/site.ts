@@ -187,6 +187,7 @@ export const ui = {
     provisional: 'Bozza strutturale — contenuti in revisione',
     footerStatus: 'Sito statico, nessun tracciamento.',
     footerNavigation: 'Informazioni sul sito',
+    footerBuildRevision: 'Revisione sorgente completa',
   },
   en: {
     primaryNavigation: 'Primary navigation',
@@ -195,6 +196,7 @@ export const ui = {
     provisional: 'Structural draft — content under review',
     footerStatus: 'Static site, no tracking.',
     footerNavigation: 'Site information',
+    footerBuildRevision: 'Full source revision',
   },
 } as const satisfies Record<Locale, Record<string, string>>;
 
