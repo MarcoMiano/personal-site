@@ -218,11 +218,22 @@ for (const locale of locales) {
     );
     if (buildRevision.url) {
       const accessibleLabel = `${ui[locale].footerBuildRevision}: ${buildRevision.value}`;
+      const revisionLink =
+        footer.match(
+          /<a\b[^>]*footer-revision__link[^>]*>([\s\S]*?)<\/a>/i,
+        )?.[1] ?? '';
       expect(
         footer.includes(`href="${buildRevision.url}"`) &&
           footer.includes(`aria-label="${accessibleLabel}"`) &&
           footer.includes(`title="${accessibleLabel}"`),
         `${label} is missing the linked full source revision`,
+      );
+      expect(
+        revisionLink.includes(buildRevision.short) &&
+          revisionLink.includes('data-brand="github"') &&
+          !revisionLink.includes('&quot;') &&
+          footer.includes('</a><span aria-hidden="true">&quot;</span>'),
+        `${label} must link only the short revision and GitHub mark`,
       );
     } else {
       expect(

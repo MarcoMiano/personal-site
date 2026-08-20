@@ -21,6 +21,7 @@ test('exposes one honest build revision marker in the footer', async ({
   const footer = page.locator('[data-site-footer]');
   const revision = await footer.getAttribute('data-build-revision');
 
+  if (revision === null) throw new Error('Missing build revision marker');
   expect(revision).toMatch(/^(?:LOCAL|[0-9a-f]{40})$/);
   await expect(page.locator('[data-build-revision]')).toHaveCount(1);
 
@@ -39,6 +40,17 @@ test('exposes one honest build revision marker in the footer', async ({
     await expect(link).toHaveAttribute('aria-label', label);
     await expect(link).toHaveAttribute('title', label);
     await expect(link.locator('[data-brand="github"]')).toHaveCount(1);
+    await expect(link.locator('span')).toHaveCount(1);
+    await expect(link).toHaveText(revision.slice(0, 12));
+    await expect
+      .poll(() =>
+        link.evaluate((element) => ({
+          closingQuote: element.nextElementSibling?.textContent,
+          openingQuote:
+            element.previousElementSibling?.textContent?.endsWith('"'),
+        })),
+      )
+      .toEqual({ closingQuote: '"', openingQuote: true });
     await link.focus();
     await expect(link).toBeFocused();
   }

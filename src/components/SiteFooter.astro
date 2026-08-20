@@ -24,17 +24,19 @@ const buildRevisionLabel = `${ui[locale].footerBuildRevision}: ${buildRevision.v
     <span>build.sha = &quot;</span>
     {
       buildRevision.url ? (
-        <a
-          class="external-brand-link footer-revision__link"
-          href={buildRevision.url}
-          aria-label={buildRevisionLabel}
-          title={buildRevisionLabel}
-          data-external-brand-link
-        >
-          <span aria-hidden="true">{buildRevision.short}</span>
+        <>
+          <a
+            class="external-brand-link footer-revision__link"
+            href={buildRevision.url}
+            aria-label={buildRevisionLabel}
+            title={buildRevisionLabel}
+            data-external-brand-link
+          >
+            <span aria-hidden="true">{buildRevision.short}</span>
+            <ExternalBrandIcon url={buildRevision.url} />
+          </a>
           <span aria-hidden="true">&quot;</span>
-          <ExternalBrandIcon url={buildRevision.url} />
-        </a>
+        </>
       ) : (
         <>
           <span>LOCAL</span>
