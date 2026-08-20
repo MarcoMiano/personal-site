@@ -1,0 +1,154 @@
+---
+import ExternalBrandIcon from './ExternalBrandIcon.astro';
+import Page from './Page.astro';
+import SectionHeading from './SectionHeading.astro';
+import type { Locale } from '../lib/site';
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+const iconRepository = 'https://github.com/hackernoon/pixel-icon-library';
+
+const copy = {
+  it: {
+    assets: 'Risorse e attribuzioni',
+    assetsDescription:
+      'Risorse visive di terze parti incluse direttamente nel sito.',
+    iconText:
+      'La geometria a 24 pixel delle icone GitHub, LinkedIn, Bluesky e degli stati del tema proviene dalla Pixel Icon Library di HackerNoon. Il riempimento è adattato alla palette del sito; la geometria è invariata.',
+    repository: 'Repository della Pixel Icon Library',
+    license: 'Licenza CC BY 4.0',
+    tools: 'Strumenti principali',
+    toolsDescription:
+      'Il sito è generato staticamente; questi strumenti servono durante sviluppo e build e non diventano servizi runtime nel browser.',
+    roles: {
+      astro: 'generatore del sito statico e content collections',
+      typescript: 'tipizzazione e controlli del codice',
+      node: 'runtime locale di build',
+      pnpm: 'gestione delle dipendenze JavaScript',
+      prettier: 'formattazione deterministica',
+      playwright: 'test del comportamento in un browser reale',
+      imagemagick: 'generazione delle varianti WebP del ritratto',
+      conda: 'ambiente locale isolato per gli strumenti',
+      git: 'versionamento del codice sorgente',
+      githubActions: 'verifica automatica su ambiente Linux isolato',
+      dependabot: 'proposte di aggiornamento per vulnerabilità note',
+    },
+  },
+  en: {
+    assets: 'Assets and attribution',
+    assetsDescription:
+      'Third-party visual resources included directly in the site.',
+    iconText:
+      "The 24-pixel geometry of the GitHub, LinkedIn, Bluesky, and theme-state icons comes from HackerNoon's Pixel Icon Library. Their fill is adapted to the site palette; the geometry is unchanged.",
+    repository: 'Pixel Icon Library repository',
+    license: 'CC BY 4.0 licence',
+    tools: 'Primary tools',
+    toolsDescription:
+      'The site is generated statically; these tools support development and build and do not become browser runtime services.',
+    roles: {
+      astro: 'static site generator and content collections',
+      typescript: 'code typing and checks',
+      node: 'local build runtime',
+      pnpm: 'JavaScript dependency management',
+      prettier: 'deterministic formatting',
+      playwright: 'behavior checks in a real browser',
+      imagemagick: 'generation of the portrait WebP variants',
+      conda: 'isolated local tooling environment',
+      git: 'source version control',
+      githubActions: 'automated verification on an isolated Linux runner',
+      dependabot: 'update proposals for known vulnerabilities',
+    },
+  },
+} as const;
+
+const tools = [
+  { name: 'Astro', url: 'https://astro.build/', key: 'astro' },
+  {
+    name: 'TypeScript',
+    url: 'https://www.typescriptlang.org/',
+    key: 'typescript',
+  },
+  { name: 'Node.js', url: 'https://nodejs.org/', key: 'node' },
+  { name: 'pnpm', url: 'https://pnpm.io/', key: 'pnpm' },
+  { name: 'Prettier', url: 'https://prettier.io/', key: 'prettier' },
+  { name: 'Playwright', url: 'https://playwright.dev/', key: 'playwright' },
+  { name: 'ImageMagick', url: 'https://imagemagick.org/', key: 'imagemagick' },
+  { name: 'Conda', url: 'https://docs.conda.io/', key: 'conda' },
+  { name: 'Git', url: 'https://git-scm.com/', key: 'git' },
+  {
+    name: 'GitHub Actions',
+    url: 'https://github.com/features/actions',
+    key: 'githubActions',
+  },
+  {
+    name: 'Dependabot',
+    url: 'https://github.com/features/security',
+    key: 'dependabot',
+  },
+] as const;
+
+const text = copy[locale];
+---
+
+<Page {locale} page="credits">
+  <section class="credits-section" aria-labelledby="credits-assets-heading">
+    <SectionHeading
+      index="01"
+      id="credits-assets-heading"
+      title={text.assets}
+      description={text.assetsDescription}
+    />
+    <article class="credit-entry">
+      <h3>Pixel Icon Library by HackerNoon</h3>
+      <p>{text.iconText}</p>
+      <p class="credit-entry__links">
+        <a
+          class="external-brand-link"
+          href={iconRepository}
+          data-external-brand-link
+        >
+          <ExternalBrandIcon url={iconRepository} />
+          <span>{text.repository}</span>
+        </a>
+        <a href="https://creativecommons.org/licenses/by/4.0/">
+          {text.license}
+        </a>
+      </p>
+    </article>
+  </section>
+
+  <section class="credits-section" aria-labelledby="credits-tools-heading">
+    <SectionHeading
+      index="02"
+      id="credits-tools-heading"
+      title={text.tools}
+      description={text.toolsDescription}
+    />
+    <dl class="credits-tools">
+      {
+        tools.map((tool) => {
+          const usesGitHubBrand = tool.url.startsWith('https://github.com/');
+
+          return (
+            <div>
+              <dt>
+                <a
+                  href={tool.url}
+                  class={usesGitHubBrand ? 'external-brand-link' : undefined}
+                  data-external-brand-link={usesGitHubBrand || undefined}
+                >
+                  {usesGitHubBrand && <ExternalBrandIcon url={tool.url} />}
+                  <span>{tool.name}</span>
+                </a>
+              </dt>
+              <dd>{text.roles[tool.key]}</dd>
+            </div>
+          );
+        })
+      }
+    </dl>
+  </section>
+</Page>

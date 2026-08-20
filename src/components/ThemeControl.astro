@@ -1,0 +1,49 @@
+---
+import {
+  getNextThemeMode,
+  interactionCopy,
+  interactionRegistry,
+  type ThemeMode,
+} from '../lib/interactions';
+import type { Locale } from '../lib/site';
+import ThemeModeIcon from './ThemeModeIcon.astro';
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+const text = interactionCopy[locale].theme;
+const initialMode: ThemeMode = 'auto';
+const initialNextMode = getNextThemeMode(initialMode);
+---
+
+<button
+  class="theme-control"
+  type="button"
+  aria-keyshortcuts={interactionRegistry.theme.shortcut.display}
+  aria-label={`${text.control}: ${text.modes[initialMode]}. ${text.activate} ${text.modes[initialNextMode]}.`}
+  title={`${text.control}: ${text.modes[initialMode]}`}
+  data-theme-control
+  data-control-label={text.control}
+  data-action-label={text.activate}
+  data-label-auto={text.modes.auto}
+  data-label-dark={text.modes.dark}
+  data-label-bright={text.modes.bright}
+  hidden
+>
+  <span class="theme-control__chrome" aria-hidden="true">THEME[</span>
+  <span class="theme-control__value" data-theme-control-value>
+    <ThemeModeIcon mode="auto" />
+    <ThemeModeIcon mode="dark" />
+    <ThemeModeIcon mode="bright" />
+    <span class="visually-hidden" data-theme-control-label
+      >{text.modes[initialMode]}</span
+    >
+  </span>
+  <span class="theme-control__chrome" aria-hidden="true">]</span>
+</button>
+
+<script>
+  import '../scripts/theme-control';
+</script>

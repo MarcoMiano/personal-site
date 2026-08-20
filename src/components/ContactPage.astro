@@ -1,0 +1,78 @@
+---
+import ExternalBrandIcon from './ExternalBrandIcon.astro';
+import Page from './Page.astro';
+import SectionHeading from './SectionHeading.astro';
+import { contactEmail, type Locale } from '../lib/site';
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+const profiles = [
+  {
+    name: 'GitHub',
+    handle: '@MarcoMiano',
+    url: 'https://github.com/MarcoMiano',
+  },
+  {
+    name: 'LinkedIn',
+    handle: 'marco-miano',
+    url: 'https://www.linkedin.com/in/marco-miano/',
+  },
+  {
+    name: 'Bluesky',
+    handle: '@ev3rm4rc0.bsky.social',
+    url: 'https://bsky.app/profile/ev3rm4rc0.bsky.social',
+  },
+] as const;
+
+const copy = {
+  it: {
+    heading: 'Profili pubblici',
+    description: 'Codice, percorso professionale e conversazioni tecniche.',
+    email: 'Per contattarmi direttamente, usa l’alias dedicato a questo sito:',
+  },
+  en: {
+    heading: 'Public profiles',
+    description: 'Code, professional background, and technical conversations.',
+    email: 'To contact me directly, use the alias dedicated to this site:',
+  },
+} as const;
+
+const text = copy[locale];
+---
+
+<Page {locale} page="contact">
+  <section class="contact-section" aria-labelledby="contact-profiles-heading">
+    <SectionHeading
+      index="01"
+      id="contact-profiles-heading"
+      title={text.heading}
+      description={text.description}
+    />
+    <ul class="contact-list">
+      {
+        profiles.map((profile) => (
+          <li>
+            <a
+              class="external-brand-link contact-link"
+              href={profile.url}
+              data-external-brand-link
+            >
+              <ExternalBrandIcon url={profile.url} />
+              <span>
+                <strong>{profile.name}</strong>
+                <small>{profile.handle}</small>
+              </span>
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+    <p class="contact-email-note">
+      <span aria-hidden="true">//</span>{text.email}{' '}
+      <a href={`mailto:${contactEmail}`}>{contactEmail}</a>
+    </p>
+  </section>
+</Page>

@@ -1,0 +1,115 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import ProfilePanel from './ProfilePanel.astro';
+import ProjectCard from './ProjectCard.astro';
+import SectionHeading from './SectionHeading.astro';
+import { getPath, type Locale } from '../lib/site';
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+const projectOrder = [
+  'cocon-client',
+  'conference-av-modernization',
+  'cocon-vote-monitor',
+] as const;
+const projectEntries = (await getCollection('projects')).filter(
+  (entry) =>
+    entry.data.locale === locale && !entry.data.draft && !entry.data.noindex,
+);
+const landingProjects = projectOrder
+  .map((translationKey) =>
+    projectEntries.find(
+      (entry) => entry.data.translationKey === translationKey,
+    ),
+  )
+  .filter((entry) => entry !== undefined);
+
+const content = {
+  it: {
+    systemTitle: 'Progetti selezionati.',
+    systemDescription:
+      'Software e integrazione AV raccontati attraverso problemi, responsabilità e risultati concreti.',
+    categories: {
+      software: 'SOFTWARE',
+      'av-automation': 'AV/AUTO',
+      infrastructure: 'INFRA',
+    },
+    statuses: {
+      concept: 'CONCETTO',
+      active: 'ATTIVO',
+      complete: 'COMPLETO',
+      maintained: 'MANTENUTO',
+      archived: 'ARCHIVIATO',
+    },
+    inspect: 'Apri il case study',
+    contact: 'Contatti',
+    projects: 'Esplora i progetti',
+  },
+  en: {
+    systemTitle: 'Selected projects.',
+    systemDescription:
+      'Software and AV integration presented through concrete problems, responsibilities, and outcomes.',
+    categories: {
+      software: 'SOFTWARE',
+      'av-automation': 'AV/AUTO',
+      infrastructure: 'INFRA',
+    },
+    statuses: {
+      concept: 'CONCEPT',
+      active: 'ACTIVE',
+      complete: 'COMPLETE',
+      maintained: 'MAINTAINED',
+      archived: 'ARCHIVED',
+    },
+    inspect: 'Open case study',
+    contact: 'Contact',
+    projects: 'Explore projects',
+  },
+} as const;
+
+const copy = content[locale];
+---
+
+<BaseLayout {locale} page="home">
+  <ProfilePanel slot="hero-aside" {locale} priority />
+
+  <div
+    class="hero-actions"
+    aria-label={locale === 'it' ? 'Azioni principali' : 'Primary actions'}
+  >
+    <a
+      class="action-link action-link--primary"
+      href={getPath(locale, 'projects')}>{copy.projects}</a
+    >
+    <a class="action-link" href={getPath(locale, 'contact')}>{copy.contact}</a>
+  </div>
+
+  <section class="work-section" aria-labelledby="operating-benches">
+    <SectionHeading
+      index="01"
+      id="operating-benches"
+      title={copy.systemTitle as string}
+      description={copy.systemDescription as string}
+    />
+    <div class="project-grid">
+      {
+        landingProjects.map((project, index) => (
+          <ProjectCard
+            index={String(index + 1).padStart(2, '0')}
+            category={copy.categories[project.data.category]}
+            title={project.data.title}
+            summary={project.data.summary}
+            status={copy.statuses[project.data.status]}
+            href={`${getPath(locale, 'projects')}#project-${project.data.translationKey}`}
+            linkLabel={copy.inspect}
+            featured={index === 0}
+          />
+        ))
+      }
+    </div>
+  </section>
+</BaseLayout>

@@ -1,0 +1,36 @@
+---
+import type { ThemeMode } from '../lib/interactions';
+
+interface Props {
+  mode: ThemeMode;
+}
+
+const { mode } = Astro.props;
+---
+
+<svg
+  class="theme-mode-icon"
+  data-theme-mode-icon={mode}
+  data-icon-source="hackernoon-pixel-icon-library"
+  data-icon-license="CC-BY-4.0"
+  viewBox="0 0 24 24"
+  aria-hidden="true"
+  focusable="false"
+  shape-rendering="crispEdges"
+>
+  {
+    mode === 'auto' ? (
+      <>
+        <polygon points="7 18 7 19 6 19 6 20 5 20 5 19 4 19 4 18 5 18 5 17 6 17 6 18 7 18" />
+        <path d="M22 16v-1h-1v-1h-4v-1h1v-1h1v-1h1v-1h1V9h1V7h-1V6h-1V5h-1V4h-1V3h-1V2h-2v1h-1v1h-1v1h-1v1h-1v1h-1V3H9V2H8V1H3v1H2v1H1v17h1v2h1v1h18v-1h1v-1h1v-5h-1ZM8 20H7v1H4v-1H3v-6h5v6Zm0-8H3V9h5v3Zm0-5H3V4h1V3h3v1h1v3Zm2 3h1V9h1V8h1V7h1V6h1V5h2v1h1v1h1v2h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v-7Zm11 10h-1v1H10v-1h1v-1h1v-1h1v-1h1v-1h6v1h1v3Z" />
+      </>
+    ) : mode === 'dark' ? (
+      <path d="M21 17v1h-2v1h-4v-1h-2v-1h-2v-1h-1v-2H9v-2H8V8h1V6h1V4h1V3h2V2h2V1h-5v1H8v1H6v1H5v1H4v2H3v2H2v6h1v2h1v2h1v1h1v1h2v1h2v1h6v-1h2v-1h2v-1h1v-1h1v-2h-1ZM8 20v-1H6v-2H5v-2H4V9h1V7h1V5h2v1H7v2H6v4h1v2h1v2h1v1h1v1h1v1h2v1h2v1h-5v-1H8Z" />
+    ) : (
+      <>
+        <path d="M21 11v-1h1V9h1V7h-3V6h-2V4h-1V1h-2v1h-1v1h-1v1h-2V3h-1V2H9V1H7v3H6v2H4v1H1v2h1v1h1v1h1v2H3v1H2v1H1v2h3v1h2v2h1v3h2v-1h1v-1h1v-1h2v1h1v1h1v1h2v-3h1v-2h2v-1h3v-2h-1v-1h-1v-1h-1v-2h1Zm-2 2v1h1v1h1v1h-3v1h-1v1h-1v3h-1v-1h-1v-1h-1v-1h-2v1h-1v1H9v1H8v-3H7v-1H6v-1H3v-1h1v-1h1v-1h1v-2H5v-1H4V9H3V8h3V7h1V6h1V3h1v1h1v1h1v1h2V5h1V4h1V3h1v2h1v2h1v1h3v1h-1v1h-1v1h-1v2h1Z" />
+        <path d="M16 10V9h-1V8h-1V7h-4v1H9v1H8v1H7v4h1v1h1v1h1v1h4v-1h1v-1h1v-1h1v-4h-1Zm-1 4h-1v1h-4v-1H9v-4h1V9h4v1h1v4Z" />
+      </>
+    )
+  }
+</svg>

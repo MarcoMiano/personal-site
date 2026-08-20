@@ -1,0 +1,122 @@
+---
+import SiteFooter from '../components/SiteFooter.astro';
+import SiteHeader from '../components/SiteHeader.astro';
+import InteractionLayer from '../components/InteractionLayer.astro';
+import {
+  getLocalizedPaths,
+  getPath,
+  pages,
+  ui,
+  type Locale,
+  type PageKey,
+} from '../lib/site';
+import { bootSessionKey, themeStorageKey } from '../lib/interactions';
+import '../styles/global.css';
+
+interface Props {
+  locale: Locale;
+  page: PageKey;
+}
+
+const { locale, page } = Astro.props;
+const pageData = pages[page];
+const paths = getLocalizedPaths(page);
+const canonical = new URL(getPath(locale, page), Astro.site ?? Astro.url);
+const italianUrl = new URL(paths.it, Astro.site ?? Astro.url);
+const englishUrl = new URL(paths.en, Astro.site ?? Astro.url);
+const hasHeroAside = Astro.slots.has('hero-aside');
+---
+
+<!doctype html>
+<html lang={locale}>
+  <head>
+    <meta charset="UTF-8" />
+    <script is:inline define:vars={{ themeStorageKey, bootSessionKey }}>
+      try {
+        const storedTheme = localStorage.getItem(themeStorageKey);
+        if (storedTheme === 'dark' || storedTheme === 'bright') {
+          document.documentElement.dataset.theme = storedTheme;
+        }
+      } catch {
+        // The CSS operating-system preference remains the fallback.
+      }
+
+      try {
+        const effectsDisabled =
+          matchMedia('(prefers-reduced-motion: reduce)').matches ||
+          matchMedia('(prefers-contrast: more)').matches;
+        if (
+          !effectsDisabled &&
+          sessionStorage.getItem(bootSessionKey) !== 'true'
+        ) {
+          document.documentElement.dataset.firstSessionEffect = 'active';
+          sessionStorage.setItem(bootSessionKey, 'true');
+        }
+      } catch {
+        // The page remains fully rendered when session storage is unavailable.
+      }
+    </script>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content={pageData.description[locale]} />
+    {!pageData.indexable && <meta name="robots" content="noindex,follow" />}
+    <link rel="canonical" href={canonical} />
+    <link rel="alternate" hreflang="it" href={italianUrl} />
+    <link rel="alternate" hreflang="en" href={englishUrl} />
+    <link rel="alternate" hreflang="x-default" href={italianUrl} />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <title>{pageData.title[locale]}</title>
+  </head>
+  <body>
+    <a class="skip-link" href="#main-content" data-skip-link
+      >{ui[locale].skipToContent}</a
+    >
+    <div class="site-shell">
+      <SiteHeader {locale} {page} />
+      <main
+        id="main-content"
+        class:list={['page-main', `page-${page}`]}
+        tabindex="-1"
+        data-page-main
+      >
+        <div
+          class:list={[
+            'hero-workbench',
+            { 'hero-workbench--split': hasHeroAside },
+          ]}
+        >
+          <section class="identity-plate" aria-labelledby="page-title">
+            <div class="module-label" aria-hidden="true">
+              <span>struct page</span><span
+                >{`page.id = "${locale}/${page}"`}</span
+              >
+            </div>
+            <p class="eyebrow" aria-hidden="true" data-entry-effect>
+              entry: /{locale}/{page}
+            </p>
+            <h1 id="page-title">{pageData.heading[locale]}</h1>
+            <p class="lede" data-content-effect>
+              <span class="visually-hidden"
+                >{pageData.introduction[locale]}</span
+              >
+              <span aria-hidden="true" data-content-effect-visual
+                >{pageData.introduction[locale]}</span
+              >
+            </p>
+            {
+              !pageData.indexable && (
+                <p class="provisional">
+                  <span aria-hidden="true">//</span>
+                  {ui[locale].provisional}
+                </p>
+              )
+            }
+          </section>
+          {hasHeroAside && <slot name="hero-aside" />}
+        </div>
+        <slot />
+      </main>
+      <InteractionLayer {locale} {page} />
+      <SiteFooter {locale} />
+    </div>
+  </body>
+</html>

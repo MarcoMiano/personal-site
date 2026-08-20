@@ -1,0 +1,37 @@
+---
+interface Props {
+  index: string;
+  category: string;
+  title: string;
+  summary: string;
+  status: string;
+  href: string;
+  linkLabel: string;
+  featured?: boolean;
+}
+
+const {
+  index,
+  category,
+  title,
+  summary,
+  status,
+  href,
+  linkLabel,
+  featured = false,
+} = Astro.props;
+---
+
+<article class:list={['project-card', { 'project-card--featured': featured }]}>
+  <div class="project-card__index" aria-hidden="true">{index}</div>
+  <div class="project-card__body">
+    <div class="module-label">
+      <span>.section {category}</span><span class="signal-status"
+        ><i aria-hidden="true"></i>status = "{status}"</span
+      >
+    </div>
+    <h3>{title}</h3>
+    <p>{summary}</p>
+    <a href={href}>{linkLabel}<span aria-hidden="true"> →</span></a>
+  </div>
+</article>

@@ -1,0 +1,111 @@
+---
+import Page from './Page.astro';
+import { contactEmail, type Locale } from '../lib/site';
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+const infomaniakPrivacy =
+  'https://www.infomaniak.com/en/legal/confidentiality-policy';
+
+const copy = {
+  it: {
+    collection: 'Raccolta dei dati',
+    collectionDescription:
+      'Il sito non usa analytics, profilazione, pubblicità, moduli di contatto o cookie non essenziali.',
+    hosting: 'Hosting e log',
+    hostingDescription:
+      'miano.cloud è ospitato come sito statico su un VPS Infomaniak.',
+    hostingDetails:
+      'Il log degli accessi HTTP di Caddy è disattivato. Fedora e Caddy conservano nel journal di sistema eventi operativi ed errori, con rotazione gestita dal server. Infomaniak può trattare i dati tecnici e di account necessari a fornire la propria infrastruttura secondo la sua informativa sulla privacy.',
+    providerPrivacy: 'Informativa sulla privacy di Infomaniak',
+    storage: 'Dati nel browser',
+    storageDescription:
+      'Le sole preferenze persistenti sono gestite direttamente dal browser.',
+    storageDetails:
+      "Quando scegli un tema, il browser salva soltanto la preferenza 'scuro' o 'chiaro' nel localStorage. Rimane finché cambi tema, torni alla modalità automatica o cancelli i dati del sito. Il valore sessionStorage 'miano.bootSeen' ricorda soltanto, per la durata della scheda, che il breve effetto iniziale è già stato mostrato.",
+    contact: 'Contatto',
+    contactDescription:
+      'Per domande su questo sito o su come gestisco i dati, puoi scrivermi a:',
+  },
+  en: {
+    collection: 'Data collection',
+    collectionDescription:
+      'The site uses no analytics, profiling, advertising, contact form, or non-essential cookies.',
+    hosting: 'Hosting and logs',
+    hostingDescription:
+      'miano.cloud is hosted as a static site on an Infomaniak VPS.',
+    hostingDetails:
+      "Caddy's HTTP access log is disabled. Fedora and Caddy retain operational events and errors in the system journal, with rotation managed by the server. Infomaniak may process the technical and account data needed to provide its infrastructure under its privacy policy.",
+    providerPrivacy: 'Infomaniak privacy policy',
+    storage: 'Browser data',
+    storageDescription:
+      'The only persistent preferences are managed directly by the browser.',
+    storageDetails:
+      "When you select a theme, the browser stores only the 'dark' or 'bright' preference in localStorage. It remains until you change the theme, return to automatic mode, or clear the site's data. The sessionStorage value 'miano.bootSeen' records only, for the lifetime of the tab, that the brief initial effect has already been shown.",
+    contact: 'Contact',
+    contactDescription:
+      'For questions about this site or how I handle data, you can write to me at:',
+  },
+} as const;
+
+const text = copy[locale];
+---
+
+<Page {locale} page="privacy">
+  <div class="privacy-grid">
+    <section
+      class="privacy-panel privacy-panel--collection"
+      aria-labelledby="privacy-collection-heading"
+    >
+      <p class="module-label" aria-hidden="true">
+        <span>policy[01]</span><span>scope = "minimal"</span>
+      </p>
+      <h2 id="privacy-collection-heading">{text.collection}</h2>
+      <p>{text.collectionDescription}</p>
+    </section>
+
+    <section
+      class="privacy-panel privacy-panel--hosting"
+      aria-labelledby="privacy-hosting-heading"
+    >
+      <p class="module-label" aria-hidden="true">
+        <span>policy[02]</span><span>host = "infomaniak"</span>
+      </p>
+      <h2 id="privacy-hosting-heading">{text.hosting}</h2>
+      <p class="privacy-panel__lead">{text.hostingDescription}</p>
+      <p>{text.hostingDetails}</p>
+      <p class="privacy-panel__action">
+        <a href={infomaniakPrivacy}>{text.providerPrivacy}</a>
+      </p>
+    </section>
+
+    <section
+      class="privacy-panel privacy-panel--storage"
+      aria-labelledby="privacy-storage-heading"
+    >
+      <p class="module-label" aria-hidden="true">
+        <span>policy[03]</span><span>store = "browser"</span>
+      </p>
+      <h2 id="privacy-storage-heading">{text.storage}</h2>
+      <p class="privacy-panel__lead">{text.storageDescription}</p>
+      <p>{text.storageDetails}</p>
+    </section>
+
+    <section
+      class="privacy-panel privacy-panel--contact"
+      aria-labelledby="privacy-contact-heading"
+    >
+      <p class="module-label" aria-hidden="true">
+        <span>policy[04]</span><span>channel = "alias"</span>
+      </p>
+      <h2 id="privacy-contact-heading">{text.contact}</h2>
+      <p>{text.contactDescription}</p>
+      <p class="privacy-panel__action">
+        <a href={`mailto:${contactEmail}`}>{contactEmail}</a>
+      </p>
+    </section>
+  </div>
+</Page>

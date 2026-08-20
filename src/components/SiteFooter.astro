@@ -1,0 +1,29 @@
+---
+import { getPath, pages, ui, type Locale } from '../lib/site';
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+---
+
+<footer class="site-footer" data-site-footer>
+  <p><span aria-hidden="true">status =</span> {ui[locale].footerStatus}</p>
+  <p class="footer-credit">
+    <span>built by </span>
+    <strong>MarcoMiano</strong>
+    <span aria-hidden="true">//</span>
+    <span>codex-assisted</span>
+  </p>
+  <nav class="footer-nav" aria-label={ui[locale].footerNavigation}>
+    <ul>
+      <li>
+        <a href={getPath(locale, 'credits')}>{pages.credits.label[locale]}</a>
+      </li>
+      <li>
+        <a href={getPath(locale, 'privacy')}>{pages.privacy.label[locale]}</a>
+      </li>
+    </ul>
+  </nav>
+</footer>

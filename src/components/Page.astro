@@ -1,0 +1,15 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import type { Locale, PageKey } from '../lib/site';
+
+interface Props {
+  locale: Locale;
+  page: PageKey;
+}
+
+const { locale, page } = Astro.props;
+---
+
+<BaseLayout {locale} {page}>
+  <slot />
+</BaseLayout>

@@ -1,0 +1,54 @@
+---
+import profileImage320 from '../assets/images/marco-miano-profile-320.webp';
+import profileImage640 from '../assets/images/marco-miano-profile-640.webp';
+import EhmfMark from './EhmfMark.astro';
+import type { Locale } from '../lib/site';
+
+interface Props {
+  locale: Locale;
+  priority?: boolean;
+}
+
+const { locale, priority = false } = Astro.props;
+const text = {
+  it: {
+    label: 'Profilo visivo',
+    alt: 'Ritratto in bianco e nero',
+    caption: 'Marco Miano · Monza e Brianza, Italia',
+  },
+  en: {
+    label: 'Visual profile',
+    alt: 'Black-and-white portrait',
+    caption: 'Marco Miano · Monza and Brianza, Italy',
+  },
+} as const satisfies Record<Locale, Record<string, string>>;
+---
+
+<figure class="profile-panel">
+  <div class="module-label" aria-hidden="true">
+    <span>portrait_01:</span><span>.format mono_rgba</span>
+  </div>
+  <div class="profile-image-frame">
+    <img
+      src={profileImage640.src}
+      srcset={`${profileImage320.src} 320w, ${profileImage640.src} 640w`}
+      alt={text[locale].alt}
+      width={640}
+      height={640}
+      sizes="(max-width: 48rem) min(76vw, 24rem), 19rem"
+      loading={priority ? 'eager' : 'lazy'}
+      fetchpriority={priority ? 'high' : 'auto'}
+      decoding="async"
+      data-profile-image
+    />
+    <EhmfMark />
+  </div>
+  <figcaption data-content-effect>
+    <span class="visually-hidden"
+      >{text[locale].label}: {text[locale].caption}</span
+    >
+    <span aria-hidden="true" data-content-effect-visual
+      >{text[locale].caption}</span
+    >
+  </figcaption>
+</figure>

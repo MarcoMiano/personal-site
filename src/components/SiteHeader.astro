@@ -1,0 +1,82 @@
+---
+import {
+  getPath,
+  pageKeys,
+  pages,
+  ui,
+  type Locale,
+  type PageKey,
+} from '../lib/site';
+import EhmfMark from './EhmfMark.astro';
+import ThemeControl from './ThemeControl.astro';
+
+interface Props {
+  locale: Locale;
+  page: PageKey;
+}
+
+const { locale, page } = Astro.props;
+const otherLocale: Locale = locale === 'it' ? 'en' : 'it';
+---
+
+<header class="site-header" data-site-header>
+  <p class="header-context" aria-hidden="true">
+    <span>#include &lt;miano.cloud&gt;</span>
+    <span>/*</span>
+    <span class="header-context__tty header-context__tty--desktop">tty0</span>
+    <span class="header-context__tty header-context__tty--mobile">tty1</span>
+    <span>*/</span>
+  </p>
+
+  <a
+    class="brand"
+    href={getPath(locale, 'home')}
+    aria-label={`Marco Miano — ${pages.home.label[locale]}`}
+  >
+    <EhmfMark />
+    <span>MarcoMiano</span>
+  </a>
+
+  <nav
+    class="primary-nav"
+    aria-label={ui[locale].primaryNavigation}
+    data-site-nav
+  >
+    <ul>
+      {
+        pageKeys
+          .filter((key) => pages[key].nav && pages[key].listed)
+          .map((key) => (
+            <li>
+              <a
+                href={getPath(locale, key)}
+                aria-current={key === page ? 'page' : undefined}
+              >
+                <span class="primary-nav__label">
+                  {pages[key].label[locale]}
+                </span>
+              </a>
+            </li>
+          ))
+      }
+    </ul>
+  </nav>
+
+  <div class="header-utilities">
+    <ThemeControl {locale} />
+    <nav
+      class="language-nav"
+      aria-label={ui[locale].languageNavigation}
+      data-language-switcher
+    >
+      <ul>
+        <li><span aria-current="page">{locale.toUpperCase()}</span></li>
+        <li>
+          <a href={getPath(otherLocale, page)} lang={otherLocale}
+            >{otherLocale.toUpperCase()}</a
+          >
+        </li>
+      </ul>
+    </nav>
+  </div>
+</header>

@@ -1,0 +1,125 @@
+---
+import { getCollection, render } from 'astro:content';
+import ExternalBrandIcon from './ExternalBrandIcon.astro';
+import Page from './Page.astro';
+import SectionHeading from './SectionHeading.astro';
+import type { Locale } from '../lib/site';
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+const entries = (await getCollection('projects')).filter(
+  (entry) =>
+    entry.data.locale === locale && !entry.data.draft && !entry.data.noindex,
+);
+const projects = await Promise.all(
+  entries.map(async (entry) => ({ entry, rendered: await render(entry) })),
+);
+
+const labels = {
+  it: {
+    heading: 'Case study',
+    description: 'Dettagli tecnici, scelte e risultati.',
+    problem: 'Problema',
+    approach: 'Approccio',
+    contribution: 'Contributo',
+    outcome: 'Risultato',
+    technology: 'Tecnologie',
+    attribution: 'Attribuzione',
+  },
+  en: {
+    heading: 'Case studies',
+    description: 'Technical details, decisions, and results.',
+    problem: 'Problem',
+    approach: 'Approach',
+    contribution: 'Contribution',
+    outcome: 'Outcome',
+    technology: 'Technology',
+    attribution: 'Attribution',
+  },
+} as const;
+
+const copy = labels[locale];
+---
+
+<Page {locale} page="projects">
+  <section class="case-study-index" aria-labelledby="case-study-heading">
+    <SectionHeading
+      index="01"
+      id="case-study-heading"
+      title={copy.heading}
+      description={copy.description}
+    />
+    <div class="case-study-list">
+      {
+        projects.map(({ entry, rendered }, index) => {
+          const { Content } = rendered;
+          const data = entry.data;
+          return (
+            <article class="case-study" id={`project-${data.translationKey}`}>
+              <div class="module-label" aria-hidden="true">
+                <span>{`.section project_${String(index + 1).padStart(2, '0')}`}</span>
+                <span>{`status = "${data.status}"`}</span>
+              </div>
+              <header class="case-study__header">
+                <p class="eyebrow">{data.period}</p>
+                <h2>{data.title}</h2>
+                <p class="lede">{data.summary}</p>
+                <p class="case-study__role">{data.role}</p>
+              </header>
+              <dl class="case-study__facts">
+                <div>
+                  <dt>{copy.problem}</dt>
+                  <dd>{data.problem}</dd>
+                </div>
+                <div>
+                  <dt>{copy.approach}</dt>
+                  <dd>{data.approach}</dd>
+                </div>
+                <div>
+                  <dt>{copy.contribution}</dt>
+                  <dd>{data.contribution}</dd>
+                </div>
+                <div>
+                  <dt>{copy.outcome}</dt>
+                  <dd>{data.outcome}</dd>
+                </div>
+              </dl>
+              <div class="case-study__body">
+                <Content />
+              </div>
+              <footer class="case-study__footer">
+                <div>
+                  <h3>{copy.technology}</h3>
+                  <p>{data.technology.join(' · ')}</p>
+                </div>
+                <div>
+                  <h3>{copy.attribution}</h3>
+                  <p>{data.attribution}</p>
+                </div>
+                {data.links.length > 0 && (
+                  <ul>
+                    {data.links.map((link) => (
+                      <li>
+                        <a
+                          class="external-brand-link"
+                          href={link.url}
+                          data-external-brand-link
+                        >
+                          <ExternalBrandIcon url={link.url} />
+                          <span>{link.label}</span>
+                        </a>
+                      </li>
+                    ))}
+                  </ul>
+                )}
+              </footer>
+            </article>
+          );
+        })
+      }
+    </div>
+  </section>
+</Page>

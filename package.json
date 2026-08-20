@@ -1,0 +1,35 @@
+{
+  "name": "personal-site",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "packageManager": "pnpm@11.18.0",
+  "engines": {
+    "node": ">=24.0.0 <25",
+    "pnpm": ">=11.18.0 <12"
+  },
+  "scripts": {
+    "dev": "node --env-file=.env.tooling node_modules/astro/bin/astro.mjs dev",
+    "build": "node --env-file=.env.tooling node_modules/astro/bin/astro.mjs build",
+    "preview": "node --env-file=.env.tooling node_modules/astro/bin/astro.mjs preview",
+    "check": "node --env-file=.env.tooling node_modules/astro/bin/astro.mjs check",
+    "test:browser": "pnpm build && playwright test --project=chromium --project=firefox",
+    "test:browser:all": "pnpm build && playwright test",
+    "format": "prettier . --write",
+    "format:check": "prettier . --check",
+    "verify": "pnpm format:check && pnpm check && pnpm verify:source && pnpm build && pnpm verify:static",
+    "verify:source": "node scripts/verify-public-source.mjs",
+    "verify:static": "node scripts/verify-static-site.mjs",
+    "verify:site": "node .agents/skills/verify-personal-site/scripts/verify-site.mjs"
+  },
+  "dependencies": {
+    "astro": "7.2.2"
+  },
+  "devDependencies": {
+    "@astrojs/check": "0.9.10",
+    "@playwright/test": "1.62.1",
+    "prettier": "3.9.6",
+    "prettier-plugin-astro": "0.14.1",
+    "typescript": "6.0.3"
+  }
+}

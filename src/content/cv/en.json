@@ -1,0 +1,218 @@
+{
+  "translationKey": "public-cv",
+  "locale": "en",
+  "draft": false,
+  "noindex": false,
+  "headline": "Head of Software Engineering, 3P Technologies",
+  "summary": "Head of Software Engineering with hands-on experience in development, networking, unified communications, AV automation, and systems integration.",
+  "location": "Monza e Brianza, Italy",
+  "experience": [
+    {
+      "id": "3p-technologies",
+      "employer": "3P Technologies S.r.l.",
+      "period": "05/2022–present",
+      "startMonth": "2022-05",
+      "roles": [
+        {
+          "id": "3p-head-software-engineering",
+          "title": "Head of Software Engineering",
+          "period": "06/2026–present",
+          "summary": "Lead a seven-person Software Engineering team while remaining involved in hands-on development.",
+          "highlights": [
+            "Set the technical direction, shared architecture, development standards, and roadmap.",
+            "Coordinate technical leads and work with other teams on delivery quality and priorities.",
+            "Promote reusable components, automation, systems integration, and open-source tools.",
+            "Develop and maintain software for AV systems, integrations, and operational tooling."
+          ]
+        },
+        {
+          "id": "3p-av-integration-assignment",
+          "title": "System Integrator & Quality Manager",
+          "period": "08/2024–present",
+          "assignment": "Project assignment supporting 3P Audiovisual SAGL.",
+          "relatedProject": "conference-av-modernization",
+          "summary": "Coordinate the integration and configuration of AV and control systems for an ongoing conference-renovation project.",
+          "highlights": [
+            "Coordinated the integration of audio, video, camera, control, and KNX systems.",
+            "Configured and commissioned assigned systems in collaboration with the senior automation developer.",
+            "Configure, test, and commission conference environments as the renovation progresses."
+          ]
+        },
+        {
+          "id": "3p-network-ucc",
+          "title": "Network & UCC Engineer",
+          "period": "05/2022–05/2026",
+          "summary": "Worked on networking and unified communications, with additional IT and software-development responsibilities.",
+          "highlights": [
+            "Designed and supported Microsoft Teams Rooms and Webex solutions.",
+            "Developed software tooling and integrations to support operations."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "ayno-videoconferenze",
+      "employer": "Ayno Videoconferenze s.r.l.",
+      "period": "05/2016–05/2022",
+      "duration": "6 years",
+      "roles": [
+        {
+          "id": "ayno-mtr",
+          "title": "Microsoft Teams Rooms Team Leader",
+          "period": "09/2019–05/2022",
+          "summary": "Led a four-person Microsoft Teams Rooms team covering pre-sales, research and development, and post-sales support.",
+          "highlights": []
+        },
+        {
+          "id": "ayno-pexip",
+          "title": "Pexip Expert",
+          "period": "02/2019–05/2022",
+          "summary": "Deployed, managed, and troubleshot multi-node Pexip video-conferencing environments.",
+          "highlights": []
+        },
+        {
+          "id": "ayno-it-manager",
+          "title": "IT Manager",
+          "period": "10/2018–05/2022",
+          "summary": "Managed the company network and IT infrastructure, including policies, security, systems, and services.",
+          "highlights": []
+        },
+        {
+          "id": "ayno-crestron",
+          "title": "Senior Crestron Programmer",
+          "period": "01/2017–05/2022",
+          "summary": "Delivered Crestron control programs and AV-equipment configuration for customer deployments.",
+          "highlights": []
+        },
+        {
+          "id": "ayno-it-support",
+          "title": "IT Support",
+          "period": "06/2016–10/2018",
+          "summary": "Supported internal endpoint deployment and the low-level operation of servers, virtual machines, directory, network, and communications services.",
+          "highlights": []
+        },
+        {
+          "id": "ayno-junior-crestron",
+          "title": "Junior Crestron Programmer",
+          "period": "06/2016–01/2017",
+          "summary": "Joined the Crestron programming team and provided customer technical support both on site and remotely.",
+          "highlights": []
+        }
+      ]
+    },
+    {
+      "id": "as-automazione-servizi",
+      "employer": "A.S. Automazione e Servizi s.r.l.",
+      "period": "2013–2016",
+      "duration": "≈2 years 9 months",
+      "roles": [
+        {
+          "id": "as-plc-hmi",
+          "title": "PLC/HMI Designer and Programmer",
+          "period": "mid-2015–06/2016",
+          "summary": "Designed and programmed PLC systems and HMI interfaces for industrial automation as a full-time employee.",
+          "highlights": []
+        },
+        {
+          "id": "as-work-study",
+          "title": "School-work placement",
+          "period": "2013–2014, intermittent",
+          "summary": "Completed multiple school-work placements in industrial automation while attending technical school.",
+          "highlights": []
+        }
+      ]
+    }
+  ],
+  "education": [
+    {
+      "id": "industrial-technical-diploma",
+      "qualification": "Industrial Technical Diploma in Electronics and Telecommunications",
+      "institution": "ITIS G. Galilei, Albenga",
+      "period": "2009–2014"
+    }
+  ],
+  "certifications": [
+    { "id": "crestron-p101", "name": "CTI-P101", "issuer": "Crestron" },
+    { "id": "crestron-p201", "name": "CTI-P201", "issuer": "Crestron" },
+    { "id": "crestron-sg", "name": "CTI-SG", "issuer": "Crestron" },
+    {
+      "id": "extron-eap",
+      "name": "Extron Authorized Programmer (EAP)",
+      "issuer": "Extron"
+    },
+    {
+      "id": "extron-ecp",
+      "name": "Extron Control Professional (ECP)",
+      "issuer": "Extron"
+    },
+    {
+      "id": "extron-xtp",
+      "name": "Extron XTP Systems Engineer (XTP-E)",
+      "issuer": "Extron"
+    }
+  ],
+  "skills": [
+    {
+      "id": "software",
+      "label": "Software",
+      "items": [
+        "Python",
+        "Lua",
+        "C",
+        "Basic x86-64 assembly",
+        "Shell",
+        "PowerShell"
+      ]
+    },
+    {
+      "id": "systems",
+      "label": "Systems and infrastructure",
+      "items": [
+        "Linux",
+        "Fedora KDE",
+        "Windows",
+        "Networking",
+        "Cisco routing and switching",
+        "NETGEAR routing and switching"
+      ]
+    },
+    {
+      "id": "av-ucc",
+      "label": "AV",
+      "items": [
+        "AV automation",
+        "Crestron",
+        "Extron",
+        "Cyviz",
+        "Systems integration"
+      ]
+    },
+    {
+      "id": "methods",
+      "label": "Methods and technical interests",
+      "items": [
+        "AI-assisted software development and technical workflows",
+        "Reverse engineering",
+        "Hardware and binary exploitation"
+      ]
+    },
+    {
+      "id": "hobbies",
+      "label": "Hobbies",
+      "items": [
+        "Motorcycling (Royal Enfield Shotgun 650)",
+        "Electronics design",
+        "Knitting",
+        "Cooking"
+      ]
+    }
+  ],
+  "languages": [
+    { "id": "italian", "name": "Italian", "proficiency": "Native" },
+    {
+      "id": "english",
+      "name": "English",
+      "proficiency": "Professional working proficiency"
+    }
+  ]
+}

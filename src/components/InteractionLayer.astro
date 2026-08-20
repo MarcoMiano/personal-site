@@ -1,0 +1,211 @@
+---
+import { interactionCopy, interactionRegistry } from '../lib/interactions';
+import {
+  getPath,
+  listedPageKeys,
+  locales,
+  pageKeys,
+  pages,
+  type Locale,
+  type PageKey,
+} from '../lib/site';
+
+interface Props {
+  locale: Locale;
+  page: PageKey;
+}
+
+const { locale, page } = Astro.props;
+const text = interactionCopy[locale];
+const shortcuts = interactionRegistry;
+const bootLines = [
+  '[  OK  ] Initialized display interface.',
+  `[  OK  ] Mounted ${pageKeys.length * locales.length} static routes.`,
+  '[  OK  ] Started theme preference service.',
+  '[  OK  ] Started keyboard interface.',
+  '[  OK  ] Reached target miano.cloud session.',
+] as const;
+---
+
+<aside class="boot-panel" aria-label={text.effects.boot} data-boot-panel hidden>
+  <div class="boot-panel__header" aria-hidden="true">
+    <span>boot_sequence</span><span>tty0</span>
+  </div>
+  <div class="boot-panel__screen" aria-hidden="true">
+    {
+      bootLines.map((line) => (
+        <code data-boot-line hidden>
+          {line}
+        </code>
+      ))
+    }
+  </div>
+  <div class="boot-panel__progress" aria-hidden="true"><span></span></div>
+  <button type="button" data-boot-skip>{text.effects.skip}</button>
+</aside>
+
+<div
+  class="shortcut-strip"
+  aria-label={text.shortcuts}
+  data-shortcut-strip
+  hidden
+>
+  <button
+    type="button"
+    aria-keyshortcuts={shortcuts.palette.shortcut.display}
+    data-command-palette-open
+  >
+    <kbd aria-hidden="true" title={shortcuts.palette.shortcut.display}
+      >{shortcuts.palette.shortcut.nanoDisplay}</kbd
+    >
+    <span>{text.palette.open}</span>
+  </button>
+  <button
+    type="button"
+    aria-keyshortcuts={shortcuts.theme.shortcut.display}
+    data-theme-shortcut-control
+  >
+    <kbd aria-hidden="true" title={shortcuts.theme.shortcut.display}
+      >{shortcuts.theme.shortcut.nanoDisplay}</kbd
+    >
+    <span>{text.theme.control}</span>
+  </button>
+  <button
+    type="button"
+    aria-keyshortcuts={shortcuts.help.shortcut.display}
+    data-shortcut-help-open
+  >
+    <kbd aria-hidden="true" title={shortcuts.help.shortcut.display}
+      >{shortcuts.help.shortcut.nanoDisplay}</kbd
+    >
+    <span>{text.help.open}</span>
+  </button>
+</div>
+
+<dialog
+  class="command-dialog"
+  aria-labelledby="command-palette-title"
+  data-command-palette
+>
+  <div class="command-dialog__frame">
+    <header class="command-dialog__header">
+      <p class="module-label" aria-hidden="true">
+        <span>struct command_palette</span><span>mode = "navigate"</span>
+      </p>
+      <h2 id="command-palette-title">{text.palette.title}</h2>
+      <form method="dialog">
+        <button
+          class="command-dialog__close"
+          value="close"
+          aria-label={text.palette.close}
+          aria-keyshortcuts={shortcuts.close.shortcut.aria}
+          data-dialog-close
+        >
+          [x]
+        </button>
+      </form>
+    </header>
+
+    <label class="command-filter" for="command-filter">
+      <span>{text.palette.filter}</span>
+      <input
+        id="command-filter"
+        type="search"
+        placeholder={text.palette.placeholder}
+        autocomplete="off"
+        spellcheck="false"
+        data-command-filter
+      />
+    </label>
+
+    <section aria-labelledby="command-navigation-title">
+      <h3 id="command-navigation-title">{text.palette.navigation}</h3>
+      <ul class="command-list">
+        {
+          listedPageKeys.map((key) => {
+            const path = getPath(locale, key);
+            return (
+              <li
+                data-command-item
+                data-search-text={`${pages[key].label[locale]} ${path} ${key}`}
+              >
+                <a
+                  href={path}
+                  aria-current={key === page ? 'page' : undefined}
+                  data-command-link
+                >
+                  <span>{pages[key].label[locale]}</span>
+                  <code>{path}</code>
+                </a>
+              </li>
+            );
+          })
+        }
+        <li class="legacy-command" data-command-item data-legacy-command hidden>
+          <p aria-label={text.effects.legacyHandle}>
+            <span aria-hidden="true">legacy_handle = "Ev3r";</span>
+          </p>
+        </li>
+      </ul>
+      <p class="command-list__empty" data-command-empty hidden>
+        {text.palette.noResults}
+      </p>
+      <p
+        class="visually-hidden"
+        aria-live="polite"
+        data-command-status
+        data-result-template={text.palette.resultCount}
+      >
+        {
+          text.palette.resultCount.replace(
+            '{count}',
+            String(listedPageKeys.length),
+          )
+        }
+      </p>
+    </section>
+  </div>
+</dialog>
+
+<dialog
+  class="command-dialog shortcut-help"
+  aria-labelledby="shortcut-help-title"
+  data-shortcut-help
+>
+  <div class="command-dialog__frame">
+    <header class="command-dialog__header">
+      <p class="module-label" aria-hidden="true">
+        <span>man shortcuts</span><span>section = 1</span>
+      </p>
+      <h2 id="shortcut-help-title">{text.help.title}</h2>
+      <form method="dialog">
+        <button
+          class="command-dialog__close"
+          value="close"
+          aria-label={text.help.close}
+          aria-keyshortcuts={shortcuts.close.shortcut.aria}
+          data-dialog-close
+        >
+          [x]
+        </button>
+      </form>
+    </header>
+    <p>{text.help.introduction}</p>
+    <dl class="shortcut-help__list">
+      {
+        (['palette', 'theme', 'help', 'close'] as const).map((command) => (
+          <div>
+            <dt>
+              <kbd>{shortcuts[command].shortcut.display}</kbd>
+            </dt>
+            <dd>{text.help.commands[command]}</dd>
+          </div>
+        ))
+      }
+    </dl>
+  </div>
+</dialog>
+
+<script>
+  import '../scripts/shortcut-controller';
+</script>
