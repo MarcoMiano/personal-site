@@ -36,7 +36,7 @@ const privacyPath = 'src/components/PrivacyPage.astro';
 const cvPaths = new Set(['src/content/cv/en.json', 'src/content/cv/it.json']);
 const safetyScannerPaths = new Set([
   'scripts/verify-public-source.mjs',
-  '.agents/skills/verify-personal-site/scripts/verify-site.mjs',
+  'scripts/verify-static-site.mjs',
 ]);
 
 const joinedPattern = (parts, flags = 'i') => new RegExp(parts.join(''), flags);
@@ -171,7 +171,13 @@ for (const file of await sourceFiles()) {
   }
 
   if (!textExtensions.has(extname(file).toLowerCase())) continue;
-  const contents = await readFile(resolve(root, file), 'utf8');
+  let contents;
+  try {
+    contents = await readFile(resolve(root, file), 'utf8');
+  } catch (error) {
+    if (error?.code === 'ENOENT') continue;
+    throw error;
+  }
   if (!safetyScannerPaths.has(file)) {
     for (const rule of forbiddenRules) {
       if (rule.pattern.test(contents))

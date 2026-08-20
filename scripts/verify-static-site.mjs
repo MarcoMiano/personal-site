@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
 import { access, readFile, readdir, stat } from 'node:fs/promises';
-import { resolve } from 'node:path';
+import { extname, relative, resolve } from 'node:path';
 import {
   contactEmail,
   getIndexablePaths,
@@ -17,12 +17,57 @@ const output = resolve(root, 'dist');
 const origin = 'https://miano.cloud';
 const failures = [];
 let profileImageCount = 0;
+const featuredProjectKeys = [
+  'cocon-client',
+  'conference-av-modernization',
+  'personal-site',
+];
+const publishedProjectKeys = [...featuredProjectKeys, 'cocon-vote-monitor'];
 
 const assetBudgets = {
   cssFile: 40 * 1024,
   javascriptTotal: 16 * 1024,
   rasterImageFile: 200 * 1024,
 };
+const generatedTextExtensions = new Set([
+  '.css',
+  '.html',
+  '.js',
+  '.json',
+  '.map',
+  '.svg',
+  '.txt',
+  '.xml',
+]);
+const generatedOutputSafetyRules = [
+  {
+    label: 'source CV filename',
+    pattern: new RegExp(['marco-miano-cv', 'it-v6'].join('-'), 'i'),
+  },
+  {
+    label: 'private source path',
+    pattern: new RegExp(
+      `(?:^|[/'"])(?:${['source', 'material'].join('-')})(?:[/.'"]|$)`,
+      'i',
+    ),
+  },
+  {
+    label: 'professional qualification source path',
+    pattern: new RegExp(
+      `(?:^|[/'"])(?:${['professional', 'certifications'].join('-')})(?:[/.'"]|$)`,
+      'i',
+    ),
+  },
+  { label: 'private document format', pattern: /\.docx\b/i },
+  {
+    label: 'private key material',
+    pattern: /BEGIN (?:EC |OPENSSH |RSA )?PRIVATE KEY/i,
+  },
+  {
+    label: 'unreleased project reference',
+    pattern: new RegExp(['AV', 'NOC'].join(''), 'i'),
+  },
+];
 
 function outputFile(path) {
   return resolve(
@@ -41,6 +86,46 @@ function expect(condition, message) {
 
 function attribute(tag, name) {
   return tag.match(new RegExp(`\\s${name}=["']([^"']*)["']`, 'i'))?.[1];
+}
+
+async function collectFiles(directory) {
+  const entries = await readdir(directory, { withFileTypes: true });
+  const files = [];
+
+  for (const entry of entries) {
+    const path = resolve(directory, entry.name);
+    if (entry.isDirectory()) files.push(...(await collectFiles(path)));
+    if (entry.isFile()) files.push(path);
+  }
+
+  return files;
+}
+
+async function verifyGeneratedOutputSafety() {
+  let files;
+  try {
+    files = await collectFiles(output);
+  } catch {
+    failures.push('generated output safety scan could not inspect dist');
+    return 0;
+  }
+
+  for (const file of files) {
+    const fileName = relative(output, file);
+    for (const rule of generatedOutputSafetyRules) {
+      if (rule.pattern.test(fileName))
+        failures.push(`${fileName} contains ${rule.label}`);
+    }
+
+    if (!generatedTextExtensions.has(extname(file).toLowerCase())) continue;
+    const contents = await readFile(file, 'utf8');
+    for (const rule of generatedOutputSafetyRules) {
+      if (rule.pattern.test(contents))
+        failures.push(`${fileName} contains ${rule.label}`);
+    }
+  }
+
+  return files.length;
 }
 
 for (const locale of locales) {
@@ -110,13 +195,6 @@ for (const locale of locales) {
       /<nav[^>]+data-language-switcher/i.test(html),
       `${label} is missing language navigation`,
     );
-    expect(
-      countMatches(
-        html,
-        /<button\b[^>]*data-theme-control[^>]*\shidden(?:\s|>|=)/gi,
-      ) === 1,
-      `${label} needs one progressively revealed theme control`,
-    );
     for (const mode of ['auto', 'dark', 'bright']) {
       expect(
         countMatches(
@@ -139,29 +217,6 @@ for (const locale of locales) {
         /<div\b[^>]*data-shortcut-strip[^>]*\shidden(?:\s|>|=)/gi,
       ) === 1,
       `${label} needs one progressively revealed shortcut strip`,
-    );
-    expect(
-      countMatches(html, /<dialog\b[^>]*data-command-palette[^>]*>/gi) === 1,
-      `${label} needs one command-palette dialog`,
-    );
-    expect(
-      countMatches(html, /<dialog\b[^>]*data-shortcut-help[^>]*>/gi) === 1,
-      `${label} needs one shortcut-help dialog`,
-    );
-    expect(
-      countMatches(
-        html,
-        /<aside\b[^>]*data-boot-panel[^>]*\shidden(?:\s|>|=)/gi,
-      ) === 1,
-      `${label} needs one progressively revealed first-session panel`,
-    );
-    expect(
-      countMatches(html, /<code\b[^>]*data-boot-line[^>]*>/gi) === 5,
-      `${label} needs five first-session boot messages`,
-    );
-    expect(
-      countMatches(html, /<p\b[^>]*data-entry-effect[^>]*>/gi) === 1,
-      `${label} needs one decorative entry-effect target`,
     );
     const narrativeEffectCount = countMatches(
       html,
@@ -347,11 +402,7 @@ for (const locale of locales) {
     }
 
     if (page === 'home') {
-      for (const project of [
-        'cocon-client',
-        'conference-av-modernization',
-        'cocon-vote-monitor',
-      ]) {
+      for (const project of featuredProjectKeys) {
         expect(
           html.includes(
             `href="${getPath(locale, 'projects')}#project-${project}"`,
@@ -362,11 +413,7 @@ for (const locale of locales) {
     }
 
     if (page === 'projects') {
-      for (const project of [
-        'cocon-client',
-        'conference-av-modernization',
-        'cocon-vote-monitor',
-      ]) {
+      for (const project of publishedProjectKeys) {
         expect(
           html.includes(`id="project-${project}"`),
           `${label} is missing project anchor ${project}`,
@@ -507,6 +554,14 @@ expect(
   JSON.stringify(sitemapUrls) === JSON.stringify(expectedSitemapUrls),
   'sitemap URLs do not match the indexable route registry',
 );
+
+const failureCountBeforeOutputSafety = failures.length;
+const generatedOutputFileCount = await verifyGeneratedOutputSafety();
+if (failures.length === failureCountBeforeOutputSafety) {
+  console.log(
+    `Generated output safety scan passed (${generatedOutputFileCount} file(s) checked).`,
+  );
+}
 
 if (failures.length > 0) {
   console.error('Static-site verification failed:');

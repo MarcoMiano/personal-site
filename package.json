@@ -20,7 +20,7 @@
     "verify": "pnpm format:check && pnpm check && pnpm verify:source && pnpm build && pnpm verify:static",
     "verify:source": "node scripts/verify-public-source.mjs",
     "verify:static": "node scripts/verify-static-site.mjs",
-    "verify:site": "node .agents/skills/verify-personal-site/scripts/verify-site.mjs"
+    "verify:site": "pnpm verify"
   },
   "dependencies": {
     "astro": "7.2.2"

@@ -41,7 +41,7 @@ Run from the repository root:
 
 ```sh
 node .agents/skills/add-localized-content/scripts/check-localized-pairs.mjs
-pnpm format
+pnpm format:check
 pnpm check
 pnpm build
 ```

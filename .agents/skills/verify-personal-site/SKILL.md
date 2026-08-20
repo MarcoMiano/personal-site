@@ -19,10 +19,10 @@ Run the same code-quality and generated-output checks for every meaningful hando
 2. Run from the repository root:
 
    ```sh
-   node .agents/skills/verify-personal-site/scripts/verify-site.mjs
+   pnpm verify:site
    ```
 
-3. The script checks both the tracked public source and generated output. If it fails, fix only issues within the current task's scope. Do not weaken checks, approve new public data, or remove safety patterns merely to make the gate pass.
+3. The deterministic chain checks formatting, types, tracked public source, the production build, and generated output. If it fails, fix only issues within the current task's scope. Do not weaken checks, approve new public data, or remove safety patterns merely to make the gate pass.
 4. Rerun the script after fixes.
 5. Inspect `git diff --check` and `git status --short` so the handoff distinguishes task changes from user-owned files.
 6. Report results using this compact shape:
@@ -36,7 +36,7 @@ Run the same code-quality and generated-output checks for every meaningful hando
 
 ## Boundaries
 
-- The bundled script runs the local deterministic checks; it does not perform the network-dependent dependency audit.
+- `pnpm verify:site` runs the local deterministic checks; it does not perform the network-dependent dependency audit.
 - Run `pnpm audit --audit-level high` when dependencies or the lockfile change and network access is authorized.
 - Treat a clean scan as evidence only for its encoded rules, not as permission to publish source documents, contact details, or employer/client claims.
 - Never modify DNS, hosting, external repositories, or production systems as part of verification.
