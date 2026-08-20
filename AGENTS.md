@@ -33,8 +33,8 @@
 
 ## Design and accessibility
 
-- Preserve the Solarized-inspired dark theme and Xerox-Alto-influenced bright
-  theme, with restrained pixel-style external marks.
+- Preserve the Solarized Dark and Solarized Light themes, with restrained
+  pixel-style external marks.
 - Use semantic landmarks, visible focus, skip navigation, keyboard-operable
   controls, and responsive layouts.
 - Honor `prefers-reduced-motion`; decorative effects must never delay access or

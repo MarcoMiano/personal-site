@@ -2,25 +2,30 @@
 [data-theme='dark'] {
   color-scheme: dark;
   --canvas: #002b36;
-  --canvas-deep: #001f27;
+  --canvas-deep: #00212a;
   --panel: #073642;
   --panel-raised: #0b4350;
-  --ink: #d6dfdc;
-  --ink-muted: #aabbb9;
-  --heading: #fff7df;
-  --link: #62d5c7;
-  --link-hover: #c9fff4;
-  --amber: #f0c75e;
-  --amber-strong: #ffe19a;
-  --phosphor: #8bd49c;
-  --rule: #6f8d91;
-  --rule-strong: #a6bdba;
-  --focus: #ffe081;
+  --shadow: #00181e;
+  --ink: #eee8d5;
+  --ink-muted: #93a1a1;
+  --heading: #fdf6e3;
+  --link: #4fc1b9;
+  --link-hover: #5fd7cf;
+  --amber: #d8aa00;
+  --amber-strong: #f0c541;
+  --orange: #ff835c;
+  --red: #ff745f;
+  --violet: #9a9adf;
+  --blue: #64a9df;
+  --phosphor: #98ac00;
+  --rule: #657b83;
+  --rule-strong: #839496;
+  --focus: #d8aa00;
   --selection-bg: #1b6470;
-  --selection-ink: #fffdf4;
+  --selection-ink: #fdf6e3;
   --effect-scanline-opacity: 0.025;
   --effect-grid-opacity: 0.035;
-  --effect-glow: 0 0 0.55em rgb(240 199 94 / 18%);
+  --effect-glow: 0 0 0.55em rgb(181 137 0 / 18%);
   --mark-ink: #eee8d5;
   --mark-accent: #2aa198;
   --mark-diamond-fill: #6c71c4;
@@ -33,26 +38,31 @@
 
 [data-theme='bright'] {
   color-scheme: light;
-  --canvas: #fff8d8;
-  --canvas-deep: #f6edc4;
-  --panel: #f4e9be;
-  --panel-raised: #ebddab;
-  --ink: #173b2a;
-  --ink-muted: #466654;
-  --heading: #102b20;
-  --link: #005f55;
-  --link-hover: #003f39;
-  --amber: #8a4b00;
-  --amber-strong: #603300;
-  --phosphor: #176b42;
-  --rule: #68755b;
-  --rule-strong: #394c3c;
-  --focus: #934900;
-  --selection-bg: #b8d8bc;
-  --selection-ink: #102b20;
+  --canvas: #fdf6e3;
+  --canvas-deep: #e3dcc8;
+  --panel: #eee8d5;
+  --panel-raised: #f7efd9;
+  --shadow: #c7bea7;
+  --ink: #073642;
+  --ink-muted: #4f656c;
+  --heading: #002b36;
+  --link: #005f5b;
+  --link-hover: #004b48;
+  --amber: #765900;
+  --amber-strong: #665000;
+  --orange: #a93912;
+  --red: #b52b28;
+  --violet: #5559a6;
+  --blue: #005f9a;
+  --phosphor: #536400;
+  --rule: #657b83;
+  --rule-strong: #586e75;
+  --focus: #765900;
+  --selection-bg: #b9d7d0;
+  --selection-ink: #002b36;
   --effect-scanline-opacity: 0.012;
   --effect-grid-opacity: 0.025;
-  --effect-glow: 0 0 0.3em rgb(138 75 0 / 10%);
+  --effect-glow: 0 0 0.3em rgb(128 96 0 / 10%);
   --mark-ink: #002b36;
   --mark-accent: #2aa198;
   --mark-diamond-fill: #6c71c4;
@@ -61,26 +71,31 @@
 @media (prefers-color-scheme: light) {
   :root:not([data-theme]) {
     color-scheme: light;
-    --canvas: #fff8d8;
-    --canvas-deep: #f6edc4;
-    --panel: #f4e9be;
-    --panel-raised: #ebddab;
-    --ink: #173b2a;
-    --ink-muted: #466654;
-    --heading: #102b20;
-    --link: #005f55;
-    --link-hover: #003f39;
-    --amber: #8a4b00;
-    --amber-strong: #603300;
-    --phosphor: #176b42;
-    --rule: #68755b;
-    --rule-strong: #394c3c;
-    --focus: #934900;
-    --selection-bg: #b8d8bc;
-    --selection-ink: #102b20;
+    --canvas: #fdf6e3;
+    --canvas-deep: #e3dcc8;
+    --panel: #eee8d5;
+    --panel-raised: #f7efd9;
+    --shadow: #c7bea7;
+    --ink: #073642;
+    --ink-muted: #4f656c;
+    --heading: #002b36;
+    --link: #005f5b;
+    --link-hover: #004b48;
+    --amber: #765900;
+    --amber-strong: #665000;
+    --orange: #a93912;
+    --red: #b52b28;
+    --violet: #5559a6;
+    --blue: #005f9a;
+    --phosphor: #536400;
+    --rule: #657b83;
+    --rule-strong: #586e75;
+    --focus: #765900;
+    --selection-bg: #b9d7d0;
+    --selection-ink: #002b36;
     --effect-scanline-opacity: 0.012;
     --effect-grid-opacity: 0.025;
-    --effect-glow: 0 0 0.3em rgb(138 75 0 / 10%);
+    --effect-glow: 0 0 0.3em rgb(128 96 0 / 10%);
     --mark-ink: #002b36;
     --mark-accent: #2aa198;
     --mark-diamond-fill: #6c71c4;
@@ -418,7 +433,7 @@ nav ul {
   margin-bottom: clamp(2rem, 6vw, 5rem);
   border: 2px solid var(--rule-strong);
   background: var(--panel);
-  box-shadow: 0.5rem 0.5rem 0 var(--canvas-deep);
+  box-shadow: 0.5rem 0.5rem 0 var(--shadow);
 }
 
 .hero-workbench--split {
@@ -458,7 +473,7 @@ nav ul {
 .eyebrow {
   min-height: 1.6em;
   margin: 1.5rem 0 0.75rem;
-  color: var(--amber);
+  color: var(--orange);
   font-size: 0.75rem;
   letter-spacing: 0.12em;
   text-transform: uppercase;
@@ -621,7 +636,7 @@ h1 {
 
 .section-heading > p {
   margin: 0;
-  color: var(--amber);
+  color: var(--violet);
   font-size: 0.72rem;
   letter-spacing: 0.12em;
 }
@@ -724,7 +739,7 @@ h1 {
   margin-bottom: clamp(3rem, 8vw, 6rem);
   border: 2px solid var(--rule-strong);
   background: var(--panel);
-  box-shadow: 0.5rem 0.5rem 0 var(--canvas-deep);
+  box-shadow: 0.5rem 0.5rem 0 var(--shadow);
 }
 
 .cv-overview .profile-panel {
@@ -926,7 +941,7 @@ h1 {
   scroll-margin-block-start: 1rem;
   border: 2px solid var(--rule-strong);
   background: var(--panel);
-  box-shadow: 0.5rem 0.5rem 0 var(--canvas-deep);
+  box-shadow: 0.5rem 0.5rem 0 var(--shadow);
 }
 
 .case-study__header,
@@ -998,13 +1013,13 @@ h1 {
   align-items: center;
   margin-block: 0 2rem;
   padding: 0.85rem 1rem;
-  border: 1px solid var(--amber);
-  background: var(--canvas-deep);
-  box-shadow: 0.25rem 0.25rem 0 var(--panel-raised);
+  border: 2px solid var(--red);
+  background: color-mix(in srgb, var(--red) 8%, var(--canvas-deep));
+  box-shadow: 0.25rem 0.25rem 0 var(--shadow);
 }
 
 .case-study-callout strong {
-  color: var(--amber);
+  color: var(--red);
   font-size: 0.72rem;
   letter-spacing: 0.1em;
 }
@@ -1071,7 +1086,8 @@ h1 {
   padding: clamp(1.25rem, 4vw, 2.5rem);
   border: 1px solid var(--rule-strong);
   background: var(--panel);
-  box-shadow: 0.35rem 0.35rem 0 var(--canvas-deep);
+  border-top: 0.2rem solid var(--blue);
+  box-shadow: 0.35rem 0.35rem 0 var(--shadow);
 }
 
 .privacy-panel--collection {
@@ -1095,6 +1111,10 @@ h1 {
   margin-bottom: 1.25rem;
   padding: 0.45rem 0.75rem;
   background: var(--canvas-deep);
+}
+
+.privacy-panel .module-label span:first-child {
+  color: var(--blue);
 }
 
 .privacy-panel h2 {
@@ -1170,9 +1190,6 @@ h1 {
 
 .credit-entry {
   padding: clamp(1.25rem, 4vw, 3rem);
-}
-
-.credit-entry {
   background: var(--panel);
 }
 
@@ -1371,7 +1388,7 @@ h1 {
   border: 2px solid var(--rule-strong);
   background: var(--panel);
   color: var(--ink);
-  box-shadow: 0.65rem 0.65rem 0 var(--canvas-deep);
+  box-shadow: 0.65rem 0.65rem 0 var(--shadow);
 }
 
 .command-dialog:not([open]) {
@@ -1915,8 +1932,7 @@ h1 {
   .cv-overview,
   .cv-role,
   .cv-role article,
-  .case-study,
-  .mark-bench {
+  .case-study {
     break-inside: avoid;
     box-shadow: none;
   }
