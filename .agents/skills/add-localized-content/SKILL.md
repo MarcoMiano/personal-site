@@ -7,6 +7,8 @@ description: Create or update paired Italian and English entries in the personal
 
 Create bilingual content pairs without inventing facts or weakening publication controls.
 
+Use [`docs/CONTENT_AUTHORING.md`](../../../docs/CONTENT_AUTHORING.md) for the content map, complete paired fictional examples, and the detailed safe authoring workflow.
+
 ## Workflow
 
 1. Read `AGENTS.md`, `src/content.config.ts`, and the relevant existing collection entries.
@@ -17,9 +19,7 @@ Create bilingual content pairs without inventing facts or weakening publication 
 6. Default new or unapproved content to `draft: true` and `noindex: true`. Never make a draft indexable. Change publication flags only after explicit review of both languages.
 7. For employer or organization work, state Marco's role and contribution separately from organizational ownership. Do not infer authorship from a public repository.
 8. Never copy non-public evidence, direct personal contact data, certificate identifiers, or source-document metadata into content or `public/`.
-9. Notes and Lab are intentionally dormant while empty. When adding the first
-   real entry to either collection, add its existing definition from
-   `dormantCollections` to `collections` in `src/content.config.ts`.
+9. Notes and Lab are intentionally dormant. Do not activate either collection as part of a content-only change; the first entry requires the separately reviewed rendering, navigation, indexing, and verification work described in the authoring runbook.
 
 ## Validation
 
@@ -34,9 +34,7 @@ pnpm build
 
 Before a broad handoff or publication-state change, use `$verify-personal-site` as the final gate.
 
-The pair checker validates filenames, locale values, translation-key uniqueness,
-complete public pairs, and synchronized draft/noindex flags for Markdown
-collections. Astro owns the full content schema validation.
+The pair checker validates filenames, locale values, translation-key uniqueness, complete public pairs, and synchronized draft/noindex flags for Markdown collections. Astro owns the full content schema validation.
 
 ## Output
 

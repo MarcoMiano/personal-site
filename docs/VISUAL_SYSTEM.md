@@ -6,30 +6,22 @@ Interface notation follows C, Python, and assembly conventions rather than C++ s
 
 ## Notation grammar
 
-The interface uses a small, repeatable vocabulary. New components should reuse
-these forms instead of inventing another programming-language motif.
+The interface uses a small, repeatable vocabulary. New components should reuse these forms instead of inventing another programming-language motif.
 
-| Purpose                       | Form                       | Example                                  |
-| ----------------------------- | -------------------------- | ---------------------------------------- |
-| Site and terminal context     | C preprocessor and comment | `#include <miano.cloud> /* tty0 */`      |
-| Page or interface module      | C-like structure           | `struct page`, `struct command_palette`  |
-| Field or status               | Assignment                 | `status = "active"`, `scope = "minimal"` |
-| Current route                 | Entry label and path       | `entry: /en/projects`                    |
-| Major content section         | Assembly directive         | `.section 01`, `.section project_02`     |
-| Indexed collection or control | Uppercase register/array   | `NAV[...]`, `THEME[...]`, `policy[01]`   |
-| Local data label              | Assembly-style label       | `portrait_01:`                           |
-| Identifiers                   | Lowercase snake case       | `command_palette`, `mono_rgba`           |
+| Purpose | Form | Example |
+| --- | --- | --- |
+| Site and terminal context | C preprocessor and comment | `#include <miano.cloud> /* tty0 */` |
+| Page or interface module | C-like structure | `struct page`, `struct command_palette` |
+| Field or status | Assignment | `status = "active"`, `scope = "minimal"` |
+| Current route | Entry label and path | `entry: /en/projects` |
+| Major content section | Assembly directive | `.section 01`, `.section project_02` |
+| Indexed collection or control | Uppercase register/array | `NAV[...]`, `THEME[...]`, `policy[01]` |
+| Local data label | Assembly-style label | `portrait_01:` |
+| Identifiers | Lowercase snake case | `command_palette`, `mono_rgba` |
 
-Indices use two digits and restart inside their own collection. `.module-label`
-is the shared visual treatment for compact code chrome; `.section` labels use
-the established section-heading treatment. Keep fragments short, recognizable,
-and secondary to the actual content. Avoid C++ `::`, decorative shell prompts,
-or unrelated syntax merely for variety.
+Indices use two digits and restart inside their own collection. `.module-label` is the shared visual treatment for compact code chrome; `.section` labels use the established section-heading treatment. Keep fragments short, recognizable, and secondary to the actual content. Avoid C++ `::`, decorative shell prompts, or unrelated syntax merely for variety.
 
-Code-like labels that duplicate visible meaning are decorative and must remain
-hidden from assistive technology. `NAV[...]` and `THEME[...]` wrap ordinary
-semantic controls; headings, links, status text, and navigation must continue to
-work without those decorations or without CSS.
+Code-like labels that duplicate visible meaning are decorative and must remain hidden from assistive technology. `NAV[...]` and `THEME[...]` wrap ordinary semantic controls; headings, links, status text, and navigation must continue to work without those decorations or without CSS.
 
 ## Themes
 
