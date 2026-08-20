@@ -1,0 +1,4 @@
+interface:
+  display_name: 'Author Project Case Study'
+  short_description: 'Draft evidence-bound bilingual case studies'
+  default_prompt: 'Use $author-project-case-study to draft a reviewable bilingual project case study from approved evidence.'

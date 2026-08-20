@@ -1,0 +1,4 @@
+interface:
+  display_name: 'Update Site Dependencies'
+  short_description: 'Review and safely update pinned site packages'
+  default_prompt: 'Use $update-site-dependencies to review and apply safe dependency updates for the personal site.'

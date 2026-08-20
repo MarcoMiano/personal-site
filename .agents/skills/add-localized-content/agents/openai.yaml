@@ -1,0 +1,4 @@
+interface:
+  display_name: 'Add Localized Content'
+  short_description: 'Create safe paired Italian and English content'
+  default_prompt: 'Use $add-localized-content to add a reviewed bilingual content entry to the personal site.'

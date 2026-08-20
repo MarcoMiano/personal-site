@@ -1,0 +1,4 @@
+interface:
+  display_name: 'Verify Personal Site'
+  short_description: 'Run the site quality and privacy gate'
+  default_prompt: 'Use $verify-personal-site to validate the current personal-site changes before handoff.'
