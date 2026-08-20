@@ -64,7 +64,7 @@ export const pages = {
       it: 'Esperienza professionale, competenze e formazione.',
       en: 'Professional experience, skills, and education.',
     },
-    heading: { it: 'Curriculum', en: 'Curriculum vitae' },
+    heading: { it: 'Curriculum vitae', en: 'Curriculum vitae' },
     introduction: {
       it: 'Esperienza, competenze e formazione in un curriculum bilingue strutturato.',
       en: 'Experience, skills, and education in a structured bilingual CV.',

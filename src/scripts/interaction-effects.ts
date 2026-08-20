@@ -3,10 +3,12 @@ const increasedContrastQuery = '(prefers-contrast: more)';
 const bootDuration = 4000;
 const lineInterval = 650;
 const textStart = 700;
+const titleStart = 250;
 
 export function initializeEffects(): void {
   const root = document.documentElement;
   const panel = document.querySelector<HTMLElement>('[data-boot-panel]');
+  const pageTitle = document.querySelector<HTMLElement>('[data-page-title]');
   const eyebrow = document.querySelector<HTMLElement>('[data-entry-effect]');
   const contentElements = [
     ...document.querySelectorAll<HTMLElement>('[data-content-effect-visual]'),
@@ -28,6 +30,7 @@ export function initializeEffects(): void {
     ...activePanel.querySelectorAll<HTMLElement>('[data-boot-line]'),
   ];
   const completeEyebrow = eyebrow?.textContent?.trim() ?? '';
+  const completePageTitle = pageTitle?.textContent?.trim() ?? '';
   const completeContent = contentElements.map(
     (element) => element.textContent?.trim() ?? '',
   );
@@ -41,6 +44,7 @@ export function initializeEffects(): void {
     if (animationTimer !== undefined) window.clearInterval(animationTimer);
     if (completionTimer !== undefined) window.clearTimeout(completionTimer);
     activePanel.hidden = true;
+    if (pageTitle) pageTitle.textContent = completePageTitle;
     if (eyebrow) eyebrow.textContent = completeEyebrow;
     contentElements.forEach((element, index) => {
       element.textContent = completeContent[index] ?? '';
@@ -64,6 +68,7 @@ export function initializeEffects(): void {
 
   activePanel.hidden = false;
   root.dataset.firstSessionEffect = 'active';
+  if (pageTitle) pageTitle.textContent = '';
   if (eyebrow) eyebrow.textContent = '';
   contentElements.forEach((element) => {
     element.textContent = '';
@@ -76,6 +81,15 @@ export function initializeEffects(): void {
     lines.forEach((line, index) => {
       line.hidden = elapsed < index * lineInterval;
     });
+
+    if (pageTitle) {
+      const step = Math.max(
+        24,
+        Math.floor(1500 / Math.max(completePageTitle.length, 1)),
+      );
+      const length = Math.max(0, Math.floor((elapsed - titleStart) / step));
+      pageTitle.textContent = completePageTitle.slice(0, length);
+    }
 
     if (eyebrow) {
       const length = Math.max(0, Math.floor((elapsed - textStart) / 34));

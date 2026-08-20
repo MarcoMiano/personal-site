@@ -93,7 +93,13 @@ const hasHeroAside = Astro.slots.has('hero-aside');
             <p class="eyebrow" aria-hidden="true" data-entry-effect>
               entry: /{locale}/{page}
             </p>
-            <h1 id="page-title">{pageData.heading[locale]}</h1>
+            <h1
+              id="page-title"
+              aria-label={pageData.heading[locale]}
+              data-page-title
+            >
+              {pageData.heading[locale]}
+            </h1>
             <p class="lede" data-content-effect>
               <span class="visually-hidden"
                 >{pageData.introduction[locale]}</span

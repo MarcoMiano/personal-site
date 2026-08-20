@@ -1,5 +1,19 @@
 import { expect, test } from '@playwright/test';
 
+test('uses the same searchable CV heading in both locales', async ({
+  page,
+}) => {
+  for (const path of ['/cv/', '/en/cv/']) {
+    await page.goto(path);
+    await expect(
+      page.getByRole('heading', { level: 1, name: 'Curriculum vitae' }),
+    ).toHaveCount(1);
+    await expect(page.locator('h1[data-page-title]')).toHaveText(
+      'Curriculum vitae',
+    );
+  }
+});
+
 test('keeps the skip link and page landmarks usable from the keyboard', async ({
   page,
 }) => {
@@ -135,4 +149,11 @@ test('keeps CV content visible and suppresses interactive chrome when printed', 
   await expect(page.locator('[data-command-palette]')).toBeHidden();
   await expect(page.locator('[data-shortcut-help]')).toBeHidden();
   await expect(page.locator('[data-boot-panel]')).toBeHidden();
+  await expect
+    .poll(() =>
+      page
+        .locator('[data-page-title]')
+        .evaluate((heading) => getComputedStyle(heading, '::after').display),
+    )
+    .toBe('none');
 });
