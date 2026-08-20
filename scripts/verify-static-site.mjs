@@ -202,12 +202,10 @@ for (const locale of locales) {
         !pages[page].indexable,
       `${label} has inconsistent indexing metadata`,
     );
-    if (pages[page].indexable) {
-      expect(
-        !html.includes('class="provisional"'),
-        `${label} is indexable but still renders a provisional marker`,
-      );
-    }
+    expect(
+      html.includes('data-page-provisional') === !pages[page].listed,
+      `${label} has inconsistent structural-draft status`,
+    );
 
     const primaryNav =
       html.match(/<nav[^>]+data-site-nav[^>]*>([\s\S]*?)<\/nav>/i)?.[1] ?? '';

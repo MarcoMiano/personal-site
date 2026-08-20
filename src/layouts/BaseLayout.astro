@@ -103,8 +103,8 @@ const hasHeroAside = Astro.slots.has('hero-aside');
               >
             </p>
             {
-              !pageData.indexable && (
-                <p class="provisional">
+              !pageData.listed && (
+                <p class="provisional" data-page-provisional>
                   <span aria-hidden="true">//</span>
                   {ui[locale].provisional}
                 </p>
