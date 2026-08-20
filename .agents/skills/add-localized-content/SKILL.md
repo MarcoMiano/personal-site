@@ -17,6 +17,9 @@ Create bilingual content pairs without inventing facts or weakening publication 
 6. Default new or unapproved content to `draft: true` and `noindex: true`. Never make a draft indexable. Change publication flags only after explicit review of both languages.
 7. For employer or organization work, state Marco's role and contribution separately from organizational ownership. Do not infer authorship from a public repository.
 8. Never copy non-public evidence, direct personal contact data, certificate identifiers, or source-document metadata into content or `public/`.
+9. Notes and Lab are intentionally dormant while empty. When adding the first
+   real entry to either collection, add its existing definition from
+   `dormantCollections` to `collections` in `src/content.config.ts`.
 
 ## Validation
 
@@ -24,14 +27,16 @@ From the repository root, run:
 
 ```sh
 node .agents/skills/add-localized-content/scripts/check-localized-pairs.mjs
-pnpm format
+pnpm format:check
 pnpm check
 pnpm build
 ```
 
 Before a broad handoff or publication-state change, use `$verify-personal-site` as the final gate.
 
-The pair checker validates filenames, locale values, translation-key uniqueness, complete public pairs, and synchronized draft/noindex flags. Astro owns the full content schema validation.
+The pair checker validates filenames, locale values, translation-key uniqueness,
+complete public pairs, and synchronized draft/noindex flags for Markdown
+collections. Astro owns the full content schema validation.
 
 ## Output
 

@@ -77,15 +77,11 @@ for (const filename of await readdir(cvDirectory)) {
 
   if (fileLocale !== data.locale)
     failures.push(`cv/${filename}: filename locale does not match data`);
-  if (data.draft === true && data.noindex !== true)
-    failures.push(`cv/${filename}: drafts must remain noindex`);
   entries.push({
     collection: 'cv',
     filename,
     translationKey: data.translationKey,
     locale: data.locale,
-    draft: data.draft,
-    noindex: data.noindex,
   });
 }
 
@@ -101,11 +97,12 @@ for (const [key, group] of groups) {
   }
 
   const complete = locales.includes('it') && locales.includes('en');
-  const publishable = group.some(({ draft }) => draft === false);
+  const publishable =
+    group[0]?.collection === 'cv' || group.some(({ draft }) => draft === false);
   if (publishable && !complete)
     failures.push(`${key}: publishable content needs both locales`);
 
-  if (complete) {
+  if (complete && group[0]?.collection !== 'cv') {
     const italian = group.find(({ locale }) => locale === 'it');
     const english = group.find(({ locale }) => locale === 'en');
     if (italian.draft !== english.draft)

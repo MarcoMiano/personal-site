@@ -26,7 +26,6 @@ const labels = {
     certifications: 'Certificazioni',
     skills: 'Competenze',
     languages: 'Lingue',
-    review: 'Bozza bilingue in revisione',
     relatedProject: 'Vedi il case study collegato',
   },
   en: {
@@ -36,7 +35,6 @@ const labels = {
     certifications: 'Certifications',
     skills: 'Skills',
     languages: 'Languages',
-    review: 'Bilingual draft under review',
     relatedProject: 'View the related case study',
   },
 } as const;
@@ -49,19 +47,11 @@ const copy = labels[locale];
     <ProfilePanel {locale} />
     <section class="cv-summary" aria-labelledby="cv-profile-heading">
       <div class="module-label" aria-hidden="true">
-        <span>struct cv_profile</span><span>status = "draft"</span>
+        <span>struct cv_profile</span><span>status = "published"</span>
       </div>
       <p class="eyebrow">{cv.location}</p>
       <h2 id="cv-profile-heading">{cv.headline}</h2>
       <p>{cv.summary}</p>
-      {
-        cv.draft && (
-          <p class="provisional">
-            <span aria-hidden="true">//</span>
-            {copy.review}
-          </p>
-        )
-      }
     </section>
   </div>
 

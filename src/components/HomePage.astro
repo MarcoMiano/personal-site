@@ -11,22 +11,15 @@ interface Props {
 }
 
 const { locale } = Astro.props;
-const projectOrder = [
-  'cocon-client',
-  'conference-av-modernization',
-  'cocon-vote-monitor',
-] as const;
 const projectEntries = (await getCollection('projects')).filter(
   (entry) =>
     entry.data.locale === locale && !entry.data.draft && !entry.data.noindex,
 );
-const landingProjects = projectOrder
-  .map((translationKey) =>
-    projectEntries.find(
-      (entry) => entry.data.translationKey === translationKey,
-    ),
-  )
-  .filter((entry) => entry !== undefined);
+const landingProjects = projectEntries
+  .filter((entry) => entry.data.featured)
+  .sort((left, right) =>
+    left.data.translationKey.localeCompare(right.data.translationKey, 'en'),
+  );
 
 const content = {
   it: {

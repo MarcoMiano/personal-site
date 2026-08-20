@@ -117,8 +117,6 @@ const cv = defineCollection({
   schema: z.object({
     translationKey: z.literal('public-cv'),
     locale,
-    draft: z.boolean().default(true),
-    noindex: z.boolean().default(true),
     headline: z.string().min(1),
     summary: z.string().min(1),
     location: z.string().min(1),
@@ -130,4 +128,7 @@ const cv = defineCollection({
   }),
 });
 
-export const collections = { projects, notes, lab, cv };
+// Notes and Lab stay schema-ready but dormant until their first real entries.
+// Spread this map into collections when content is authored.
+export const dormantCollections = { notes, lab };
+export const collections = { projects, cv };
