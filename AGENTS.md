@@ -54,6 +54,32 @@
   privacy implementation and its generated pages.
 - Never commit secrets or modify production systems from this repository.
 
+## Collaboration and change discipline
+
+- Delegate every concrete, bounded task that a less powerful model/reasoning
+  pair can complete reliably to an appropriate subagent, minimizing token use
+  while preserving quality.
+- Keep project management, architecture, scope, safety review, and final
+  integration decisions with the lead agent.
+- Do not delegate when coordination or verification would cost more than
+  completing the work directly.
+- Before spawning a subagent, classify the work by complexity, ambiguity, risk,
+  and verification cost. Select both the model and reasoning effort explicitly;
+  do not inherit the lead configuration without considering the task.
+- Prefer GPT-5.6 Luna at low or medium reasoning for mechanical searches,
+  inventories, formatting, straightforward checks, and tightly specified edits.
+- Prefer GPT-5.6 Terra at medium or high reasoning for bounded implementation,
+  debugging, translation review, test design, and audits requiring judgement.
+- Reserve GPT-5.6 Sol at high reasoning or above for architecture, difficult
+  integration, high-risk security work, or ambiguity that genuinely needs the
+  lead model. The lead remains responsible for reviewing the result.
+- Use GPT-5.3 Codex Spark only in exceptional latency-sensitive cases, when it
+  is available and the task is narrow, mechanical, and cheaply verifiable.
+- Give every subagent a concrete scope, constraints, expected output, and
+  validation target appropriate to the selected model/reasoning pair.
+- Preserve unrelated work and leave changes uncommitted until Marco approves
+  the exact commit message and file scope. Keep commits focused and signed.
+
 ## Checks
 
 Use the repository-local environment and run the relevant checks before every
@@ -65,9 +91,6 @@ use or create a separate named Conda environment outside the checkout (for
 example `codex-tools`). Never install that tooling in Conda `base`, and do not
 add it to `environment.yml` unless it becomes part of the site's build or test
 path.
-
-Leave changes uncommitted until the exact commit message and scope have been
-reviewed by Marco; keep commits focused and signed.
 
 ## Skills
 
