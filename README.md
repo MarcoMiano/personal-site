@@ -7,7 +7,7 @@ software, AV automation, infrastructure work, and technical notes.
 
 - Conda or another environment manager
 - Node.js 24 LTS
-- pnpm 11.18.0
+- pnpm 11.22.0
 
 The repository-local environment definition keeps project tooling isolated from
 Conda `base`. The exact setup is:
@@ -16,13 +16,18 @@ Conda `base`. The exact setup is:
 conda env create --prefix ./.conda --file environment.yml
 conda activate ./.conda
 corepack enable --install-directory "$CONDA_PREFIX/bin"
-corepack prepare pnpm@11.18.0 --activate
+corepack prepare pnpm@11.22.0 --activate
 pnpm install
 ```
 
 For a later session, activate `.conda` and run `pnpm install` only when the
 lockfile changes. The repository's `.env.tooling` disables framework telemetry
-without containing secrets.
+without containing secrets. This environment is intentionally Node-only;
+repository-adjacent Python tooling belongs in a separate named Conda
+environment outside the checkout, never in Conda `base`.
+
+`pnpm-workspace.yaml` keeps PostCSS on the latest compatible Nano ID 3.x patch;
+the override can be removed when PostCSS no longer requires that CommonJS line.
 
 ## Commands
 

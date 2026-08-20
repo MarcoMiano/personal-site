@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "private": true,
   "type": "module",
-  "packageManager": "pnpm@11.18.0",
+  "packageManager": "pnpm@11.22.0",
   "engines": {
     "node": ">=24.0.0 <25",
     "pnpm": ">=11.18.0 <12"
@@ -23,7 +23,7 @@
     "verify:site": "pnpm verify"
   },
   "dependencies": {
-    "astro": "7.2.2"
+    "astro": "7.2.4"
   },
   "devDependencies": {
     "@astrojs/check": "0.9.10",

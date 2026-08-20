@@ -58,6 +58,14 @@
 
 Use the repository-local environment and run the relevant checks before every
 handoff. For broad changes run `pnpm verify:site` and the complete browser suite.
+
+The repository-local `.conda` environment is deliberately Node-only. For
+repository-adjacent Python work such as creating or validating Codex skills,
+use or create a separate named Conda environment outside the checkout (for
+example `codex-tools`). Never install that tooling in Conda `base`, and do not
+add it to `environment.yml` unless it becomes part of the site's build or test
+path.
+
 Leave changes uncommitted until the exact commit message and scope have been
 reviewed by Marco; keep commits focused and signed.
 
