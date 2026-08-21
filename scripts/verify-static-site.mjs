@@ -25,7 +25,11 @@ const featuredProjectKeys = [
   'conference-av-modernization',
   'personal-site',
 ];
-const publishedProjectKeys = [...featuredProjectKeys, 'cocon-vote-monitor'];
+const publishedProjectKeys = [
+  ...featuredProjectKeys,
+  'cocon-vote-monitor',
+  'mip-mcp9808',
+];
 
 const assetBudgets = {
   cssFile: 40 * 1024,

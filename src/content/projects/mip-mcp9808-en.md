@@ -24,8 +24,8 @@ links:
   - label: Source repository
     url: https://github.com/MarcoMiano/mip-mcp9808
 featured: false
-draft: true
-noindex: true
+draft: false
+noindex: false
 ---
 
 ## Register-oriented driver model

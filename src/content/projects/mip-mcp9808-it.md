@@ -24,8 +24,8 @@ links:
   - label: Repository sorgente
     url: https://github.com/MarcoMiano/mip-mcp9808
 featured: false
-draft: true
-noindex: true
+draft: false
+noindex: false
 ---
 
 ## Modello del driver orientato ai registri
