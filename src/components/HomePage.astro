@@ -11,9 +11,11 @@ interface Props {
 }
 
 const { locale } = Astro.props;
+const showUnpublishedProjects = import.meta.env.DEV;
 const projectEntries = (await getCollection('projects')).filter(
   (entry) =>
-    entry.data.locale === locale && !entry.data.draft && !entry.data.noindex,
+    entry.data.locale === locale &&
+    (showUnpublishedProjects || (!entry.data.draft && !entry.data.noindex)),
 );
 const landingProjects = projectEntries
   .filter((entry) => entry.data.featured)

@@ -10,9 +10,11 @@ interface Props {
 }
 
 const { locale } = Astro.props;
+const showUnpublishedProjects = import.meta.env.DEV;
 const entries = (await getCollection('projects')).filter(
   (entry) =>
-    entry.data.locale === locale && !entry.data.draft && !entry.data.noindex,
+    entry.data.locale === locale &&
+    (showUnpublishedProjects || (!entry.data.draft && !entry.data.noindex)),
 );
 const projects = await Promise.all(
   entries.map(async (entry) => ({ entry, rendered: await render(entry) })),
