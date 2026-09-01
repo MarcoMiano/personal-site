@@ -27,7 +27,7 @@ Code-like labels that duplicate visible meaning are decorative and must remain h
 
 Solarized Dark uses the canonical `base03`, `base02`, `base1`, `base2`, and `base3` tones. Solarized Light uses the canonical warm `base3` paper and `base2` panels. Both themes add a separate shadow tone so nested surfaces retain depth instead of using a lighter panel colour as a shadow.
 
-The accent palette has stable roles: cyan identifies links, amber marks controls and project signals, green reports healthy state, red marks warnings or exceptional callouts, blue identifies policy and information groups, violet marks section coordinates, and orange identifies entry context. A repeated collection keeps one accent rather than changing colour per item. Text variants are lightened in the dark theme and darkened in the light theme when canonical Solarized accents would not provide enough contrast; the hue relationships remain Solarized.
+The accent palette has stable roles: cyan identifies links, amber marks controls and project signals, green reports healthy state, red marks warnings or exceptional callouts, blue identifies policy and information groups, violet marks section coordinates and inline technical tokens, and orange identifies entry context. A repeated collection keeps one accent rather than changing colour per item. Text variants are lightened in the dark theme and darkened in the light theme when canonical Solarized accents would not provide enough contrast; the hue relationships remain Solarized.
 
 Both themes use the same semantic tokens in `src/styles/global.css`:
 
@@ -42,7 +42,7 @@ Body, muted, link, and accent colours used for small text meet WCAG AA against t
 
 ## Effects
 
-Scanlines and the background grid are static pseudo-elements with low token-controlled opacity. They never handle input. Glow is limited to the EHMF mark, short signal labels, and status lamps; body copy receives no glow.
+Scanlines and the background grid are static pseudo-elements with low token-controlled opacity. They never handle input. Glow is limited to the EHMF mark, short signal labels, status lamps, and violet inline technical tokens in case-study prose; surrounding body copy receives no glow. Inline tokens inherit the prose size, use bold text without a background, and lose the glow in reduced-motion, increased-contrast, forced-colour, and print modes.
 
 Reduced-motion, increased-contrast, forced-color, and print modes remove the decorative layers. No content depends on them.
 

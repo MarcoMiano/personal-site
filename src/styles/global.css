@@ -1033,6 +1033,13 @@ h1 {
   margin-inline: auto;
 }
 
+.case-study__body code:not(pre code) {
+  color: var(--violet);
+  font: inherit;
+  font-weight: 700;
+  text-shadow: 0 0 0.45em color-mix(in srgb, var(--violet) 32%, transparent);
+}
+
 .case-study-callout {
   display: grid;
   grid-template-columns: auto minmax(0, 1fr);
@@ -1892,6 +1899,10 @@ h1 {
     opacity: 1;
     animation: none !important;
   }
+
+  .case-study__body code:not(pre code) {
+    text-shadow: none;
+  }
 }
 
 @media (forced-colors: active) {
@@ -1930,6 +1941,11 @@ h1 {
     color: CanvasText;
     opacity: 1;
     animation: none;
+  }
+
+  .case-study__body code:not(pre code) {
+    color: CanvasText;
+    text-shadow: none;
   }
 }
 
@@ -1971,6 +1987,11 @@ h1 {
 
   .ehmf-mark__register {
     display: none;
+  }
+
+  .case-study__body code:not(pre code) {
+    color: var(--ink);
+    text-shadow: none;
   }
 
   .site-shell {
