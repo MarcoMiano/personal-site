@@ -16,7 +16,7 @@ technology:
   - Networked audio and video
   - Camera control
   - KNX
-outcome: Five of seven planned environments have been configured, tested, and placed into operation; remaining work is ongoing.
+outcome: Six of seven planned environments have been configured, tested, and placed into operation; remaining work is ongoing.
 attribution: Project assignment supporting 3P Audiovisual SAGL while employed by 3P Technologies S.r.l., in collaboration with the senior automation developer.
 featured: true
 draft: false
@@ -27,6 +27,6 @@ noindex: false
 
 Across seven conference environments, the project covers nearly **5,000 devices and conference positions**: around 1,700 delegate and microphone positions, approximately 2,800 listening units, more than 300 AV-over-IP endpoints, and dozens of controlled cameras.
 
-I work directly with the customer on requirements and possible changes, coordinate the interfaces between systems, and handle the detailed device configuration, testing, and commissioning. Five of the seven planned environments are in operation, with the remaining work still under way.
+I work directly with the customer on requirements and possible changes, coordinate the interfaces between systems, and handle the detailed device configuration, testing, and commissioning. Six of the seven planned environments are in operation, with the remaining work still under way.
 
 I work alongside the senior automation developer, who owns the main control-code implementation. My software contribution consists of the smaller changes needed during integration; most of my work is system integration, device configuration, quality checks, and commissioning.
