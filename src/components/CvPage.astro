@@ -47,7 +47,8 @@ const copy = labels[locale];
     <ProfilePanel {locale} />
     <section class="cv-summary" aria-labelledby="cv-profile-heading">
       <div class="module-label" aria-hidden="true">
-        <span>struct cv_profile</span><span>status = "published"</span>
+        <span>struct cv_profile</span>
+        <span>status = "published"</span>
       </div>
       <p class="eyebrow">{cv.location}</p>
       <h2 id="cv-profile-heading">{cv.headline}</h2>
@@ -62,62 +63,60 @@ const copy = labels[locale];
       title={copy.experience}
     />
     <div class="cv-timeline">
-      {
-        cv.experience.map((group) => (
-          <section class="cv-employer" aria-labelledby={`employer-${group.id}`}>
-            <header class="cv-employer__header">
-              <h3 class="cv-employer__name" id={`employer-${group.id}`}>
-                {group.employer}
-              </h3>
-              <p class="cv-employer__tenure">
-                <span>{group.period}</span>
-                <span>
-                  {group.startMonth
-                    ? getCurrentTenure(group.startMonth, locale)
-                    : group.duration}
-                </span>
-              </p>
-            </header>
-            <ol class="cv-employer__roles">
-              {group.roles.map((item) => (
-                <li
-                  class:list={[
-                    'cv-role',
-                    { 'cv-role--project': item.relatedProject },
-                  ]}
-                >
-                  <article>
-                    <div class="cv-role__period">{item.period}</div>
-                    <div class="cv-role__body">
-                      <h4>{item.title}</h4>
-                      {item.assignment && (
-                        <p class="cv-role__assignment">{item.assignment}</p>
-                      )}
-                      {item.relatedProject && (
-                        <a
-                          class="cv-role__project-link"
-                          href={`${getPath(locale, 'projects')}#project-${item.relatedProject}`}
-                        >
-                          {copy.relatedProject}
-                          <span aria-hidden="true"> →</span>
-                        </a>
-                      )}
-                      <p>{item.summary}</p>
-                      {item.highlights.length > 0 && (
-                        <ul>
-                          {item.highlights.map((highlight) => (
-                            <li>{highlight}</li>
-                          ))}
-                        </ul>
-                      )}
-                    </div>
-                  </article>
-                </li>
-              ))}
-            </ol>
-          </section>
-        ))
-      }
+      {cv.experience.map((group) => (
+        <section class="cv-employer" aria-labelledby={`employer-${group.id}`}>
+          <header class="cv-employer__header">
+            <h3 class="cv-employer__name" id={`employer-${group.id}`}>
+              {group.employer}
+            </h3>
+            <p class="cv-employer__tenure">
+              <span>{group.period}</span>
+              <span>
+                {group.startMonth
+                  ? getCurrentTenure(group.startMonth, locale)
+                  : group.duration}
+              </span>
+            </p>
+          </header>
+          <ol class="cv-employer__roles">
+            {group.roles.map((item) => (
+              <li
+                class:list={[
+                  'cv-role',
+                  { 'cv-role--project': item.relatedProject },
+                ]}
+              >
+                <article>
+                  <div class="cv-role__period">{item.period}</div>
+                  <div class="cv-role__body">
+                    <h4>{item.title}</h4>
+                    {item.assignment && (
+                      <p class="cv-role__assignment">{item.assignment}</p>
+                    )}
+                    {item.relatedProject && (
+                      <a
+                        class="cv-role__project-link"
+                        href={`${getPath(locale, 'projects')}#project-${item.relatedProject}`}
+                      >
+                        {copy.relatedProject}
+                        <span aria-hidden="true"> →</span>
+                      </a>
+                    )}
+                    <p>{item.summary}</p>
+                    {item.highlights.length > 0 && (
+                      <ul>
+                        {item.highlights.map((highlight) => (
+                          <li>{highlight}</li>
+                        ))}
+                      </ul>
+                    )}
+                  </div>
+                </article>
+              </li>
+            ))}
+          </ol>
+        </section>
+      ))}
     </div>
   </section>
 
@@ -128,15 +127,13 @@ const copy = labels[locale];
         id="cv-education-heading"
         title={copy.education}
       />
-      {
-        cv.education.map((item) => (
-          <article class="cv-compact-entry">
-            <p>{item.period}</p>
-            <h3>{item.qualification}</h3>
-            <p>{item.institution}</p>
-          </article>
-        ))
-      }
+      {cv.education.map((item) => (
+        <article class="cv-compact-entry">
+          <p>{item.period}</p>
+          <h3>{item.qualification}</h3>
+          <p>{item.institution}</p>
+        </article>
+      ))}
     </section>
 
     <section class="cv-section" aria-labelledby="cv-certifications-heading">
@@ -146,7 +143,9 @@ const copy = labels[locale];
         title={copy.certifications}
       />
       <ul class="cv-plain-list">
-        {cv.certifications.map((item) => <li>{item.name}</li>)}
+        {cv.certifications.map((item) => (
+          <li>{item.name}</li>
+        ))}
       </ul>
     </section>
   </div>
@@ -155,14 +154,12 @@ const copy = labels[locale];
     <section class="cv-section" aria-labelledby="cv-skills-heading">
       <SectionHeading index="04" id="cv-skills-heading" title={copy.skills} />
       <div class="cv-skill-groups">
-        {
-          cv.skills.map((group) => (
-            <div>
-              <h3>{group.label}</h3>
-              <p>{group.items.join(' · ')}</p>
-            </div>
-          ))
-        }
+        {cv.skills.map((group) => (
+          <div>
+            <h3>{group.label}</h3>
+            <p>{group.items.join(' · ')}</p>
+          </div>
+        ))}
       </div>
     </section>
 
@@ -173,13 +170,11 @@ const copy = labels[locale];
         title={copy.languages}
       />
       <ul class="cv-plain-list">
-        {
-          cv.languages.map((item) => (
-            <li>
-              <strong>{item.name}</strong> — {item.proficiency}
-            </li>
-          ))
-        }
+        {cv.languages.map((item) => (
+          <li>
+            <strong>{item.name}</strong> — {item.proficiency}
+          </li>
+        ))}
       </ul>
     </section>
   </div>

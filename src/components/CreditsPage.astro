@@ -128,27 +128,25 @@ const text = copy[locale];
       description={text.toolsDescription}
     />
     <dl class="credits-tools">
-      {
-        tools.map((tool) => {
-          const usesGitHubBrand = tool.url.startsWith('https://github.com/');
+      {tools.map((tool) => {
+        const usesGitHubBrand = tool.url.startsWith('https://github.com/');
 
-          return (
-            <div>
-              <dt>
-                <a
-                  href={tool.url}
-                  class={usesGitHubBrand ? 'external-brand-link' : undefined}
-                  data-external-brand-link={usesGitHubBrand || undefined}
-                >
-                  {usesGitHubBrand && <ExternalBrandIcon url={tool.url} />}
-                  <span>{tool.name}</span>
-                </a>
-              </dt>
-              <dd>{text.roles[tool.key]}</dd>
-            </div>
-          );
-        })
-      }
+        return (
+          <div>
+            <dt>
+              <a
+                href={tool.url}
+                class={usesGitHubBrand ? 'external-brand-link' : undefined}
+                data-external-brand-link={usesGitHubBrand || undefined}
+              >
+                {usesGitHubBrand && <ExternalBrandIcon url={tool.url} />}
+                <span>{tool.name}</span>
+              </a>
+            </dt>
+            <dd>{text.roles[tool.key]}</dd>
+          </div>
+        );
+      })}
     </dl>
   </section>
 </Page>

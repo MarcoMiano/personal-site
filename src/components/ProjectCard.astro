@@ -23,15 +23,21 @@ const {
 ---
 
 <article class:list={['project-card', { 'project-card--featured': featured }]}>
-  <div class="project-card__index" aria-hidden="true">{index}</div>
+  <div class="project-card__index" aria-hidden="true">
+    {index}
+  </div>
   <div class="project-card__body">
     <div class="module-label">
-      <span>.section {category}</span><span class="signal-status"
-        ><i aria-hidden="true"></i>status = "{status}"</span
-      >
+      <span>.section {category}</span>
+      <span class="signal-status">
+        <i aria-hidden="true"></i>status = "{status}"
+      </span>
     </div>
     <h3>{title}</h3>
     <p>{summary}</p>
-    <a href={href}>{linkLabel}<span aria-hidden="true"> →</span></a>
+    <a href={href}>
+      {linkLabel}
+      <span aria-hidden="true"> →</span>
+    </a>
   </div>
 </article>

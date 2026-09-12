@@ -6,7 +6,7 @@ Marco Miano's bilingual personal website: a static Astro project for sharing sof
 
 - Conda or another environment manager
 - Node.js 24 LTS
-- pnpm 11.22.0
+- pnpm 11.26.0
 
 The repository-local environment definition keeps project tooling isolated from Conda `base`. The exact setup is:
 
@@ -14,13 +14,15 @@ The repository-local environment definition keeps project tooling isolated from 
 conda env create --prefix ./.conda --file environment.yml
 conda activate ./.conda
 corepack enable --install-directory "$CONDA_PREFIX/bin"
-corepack prepare pnpm@11.22.0 --activate
+corepack prepare pnpm@11.26.0 --activate
 pnpm install
 ```
 
 For a later session, activate `.conda` and run `pnpm install` only when the lockfile changes. The repository's `.env.tooling` disables framework telemetry without containing secrets. This environment is intentionally Node-only; repository-adjacent Python tooling belongs in a separate named Conda environment outside the checkout, never in Conda `base`.
 
 `pnpm-workspace.yaml` keeps PostCSS on the latest compatible Nano ID 3.x patch; the override can be removed when PostCSS no longer requires that CommonJS line.
+
+TypeScript stays on 6.0.3 because `@astrojs/check` 0.9.10 supports TypeScript 5 and 6, but not 7. Prettier's Astro plugin 1.x uses the Astro Rust compiler and requires Node >=22.12 and Prettier >=3.5.3; the pinned toolchain satisfies both requirements.
 
 ## Commands
 
@@ -37,6 +39,8 @@ pnpm test:browser:all
 ```
 
 `pnpm verify:site` runs the deterministic quality gate and scans source and generated output for publication-safety violations. Browser tests cover Chromium, Firefox, and WebKit; the complete matrix runs in CI.
+
+Use `pnpm test:browser` for local Chromium and Firefox checks. Run `pnpm test:browser:all` on the Ubuntu CI runner or another officially supported environment. If WebKit reports unsupported system dependencies, leave its validation to CI rather than attempting host-library workarounds.
 
 Browser tests serve `dist/` locally with a real `Content-Security-Policy: script-src 'self'` response header. The static gate rejects executable inline scripts and checks external script assets; inert JSON data is validated separately. This verifies the built site, not the development server or the deployed serving policy. Inline styles are outside this script-policy check.
 

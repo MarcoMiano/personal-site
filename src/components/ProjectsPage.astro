@@ -55,73 +55,71 @@ const copy = labels[locale];
       description={copy.description}
     />
     <div class="case-study-list">
-      {
-        projects.map(({ entry, rendered }, index) => {
-          const { Content } = rendered;
-          const data = entry.data;
-          return (
-            <article class="case-study" id={`project-${data.translationKey}`}>
-              <div class="module-label" aria-hidden="true">
-                <span>{`.section project_${String(index + 1).padStart(2, '0')}`}</span>
-                <span>{`status = "${data.status}"`}</span>
+      {projects.map(({ entry, rendered }, index) => {
+        const { Content } = rendered;
+        const data = entry.data;
+        return (
+          <article class="case-study" id={`project-${data.translationKey}`}>
+            <div class="module-label" aria-hidden="true">
+              <span>{`.section project_${String(index + 1).padStart(2, '0')}`}</span>
+              <span>{`status = "${data.status}"`}</span>
+            </div>
+            <header class="case-study__header">
+              <p class="eyebrow">{data.period}</p>
+              <h2>{data.title}</h2>
+              <p class="lede">{data.summary}</p>
+              <p class="case-study__role">{data.role}</p>
+            </header>
+            <dl class="case-study__facts">
+              <div>
+                <dt>{copy.problem}</dt>
+                <dd>{data.problem}</dd>
               </div>
-              <header class="case-study__header">
-                <p class="eyebrow">{data.period}</p>
-                <h2>{data.title}</h2>
-                <p class="lede">{data.summary}</p>
-                <p class="case-study__role">{data.role}</p>
-              </header>
-              <dl class="case-study__facts">
-                <div>
-                  <dt>{copy.problem}</dt>
-                  <dd>{data.problem}</dd>
-                </div>
-                <div>
-                  <dt>{copy.approach}</dt>
-                  <dd>{data.approach}</dd>
-                </div>
-                <div>
-                  <dt>{copy.contribution}</dt>
-                  <dd>{data.contribution}</dd>
-                </div>
-                <div>
-                  <dt>{copy.outcome}</dt>
-                  <dd>{data.outcome}</dd>
-                </div>
-              </dl>
-              <div class="case-study__body">
-                <Content />
+              <div>
+                <dt>{copy.approach}</dt>
+                <dd>{data.approach}</dd>
               </div>
-              <footer class="case-study__footer">
-                <div>
-                  <h3>{copy.technology}</h3>
-                  <p>{data.technology.join(' · ')}</p>
-                </div>
-                <div>
-                  <h3>{copy.attribution}</h3>
-                  <p>{data.attribution}</p>
-                </div>
-                {data.links.length > 0 && (
-                  <ul>
-                    {data.links.map((link) => (
-                      <li>
-                        <a
-                          class="external-brand-link"
-                          href={link.url}
-                          data-external-brand-link
-                        >
-                          <ExternalBrandIcon url={link.url} />
-                          <span>{link.label}</span>
-                        </a>
-                      </li>
-                    ))}
-                  </ul>
-                )}
-              </footer>
-            </article>
-          );
-        })
-      }
+              <div>
+                <dt>{copy.contribution}</dt>
+                <dd>{data.contribution}</dd>
+              </div>
+              <div>
+                <dt>{copy.outcome}</dt>
+                <dd>{data.outcome}</dd>
+              </div>
+            </dl>
+            <div class="case-study__body">
+              <Content />
+            </div>
+            <footer class="case-study__footer">
+              <div>
+                <h3>{copy.technology}</h3>
+                <p>{data.technology.join(' · ')}</p>
+              </div>
+              <div>
+                <h3>{copy.attribution}</h3>
+                <p>{data.attribution}</p>
+              </div>
+              {data.links.length > 0 && (
+                <ul>
+                  {data.links.map((link) => (
+                    <li>
+                      <a
+                        class="external-brand-link"
+                        href={link.url}
+                        data-external-brand-link
+                      >
+                        <ExternalBrandIcon url={link.url} />
+                        <span>{link.label}</span>
+                      </a>
+                    </li>
+                  ))}
+                </ul>
+              )}
+            </footer>
+          </article>
+        );
+      })}
     </div>
   </section>
 </Page>

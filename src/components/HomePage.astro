@@ -78,9 +78,13 @@ const copy = content[locale];
   >
     <a
       class="action-link action-link--primary"
-      href={getPath(locale, 'projects')}>{copy.projects}</a
+      href={getPath(locale, 'projects')}
     >
-    <a class="action-link" href={getPath(locale, 'contact')}>{copy.contact}</a>
+      {copy.projects}
+    </a>
+    <a class="action-link" href={getPath(locale, 'contact')}>
+      {copy.contact}
+    </a>
   </div>
 
   <section class="work-section" aria-labelledby="operating-benches">
@@ -91,20 +95,18 @@ const copy = content[locale];
       description={copy.systemDescription as string}
     />
     <div class="project-grid">
-      {
-        landingProjects.map((project, index) => (
-          <ProjectCard
-            index={String(index + 1).padStart(2, '0')}
-            category={copy.categories[project.data.category]}
-            title={project.data.title}
-            summary={project.data.summary}
-            status={copy.statuses[project.data.status]}
-            href={`${getPath(locale, 'projects')}#project-${project.data.translationKey}`}
-            linkLabel={copy.inspect}
-            featured={index === 0}
-          />
-        ))
-      }
+      {landingProjects.map((project, index) => (
+        <ProjectCard
+          index={String(index + 1).padStart(2, '0')}
+          category={copy.categories[project.data.category]}
+          title={project.data.title}
+          summary={project.data.summary}
+          status={copy.statuses[project.data.status]}
+          href={`${getPath(locale, 'projects')}#project-${project.data.translationKey}`}
+          linkLabel={copy.inspect}
+          featured={index === 0}
+        />
+      ))}
     </div>
   </section>
 </BaseLayout>

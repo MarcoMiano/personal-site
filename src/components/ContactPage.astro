@@ -52,27 +52,25 @@ const text = copy[locale];
       description={text.description}
     />
     <ul class="contact-list">
-      {
-        profiles.map((profile) => (
-          <li>
-            <a
-              class="external-brand-link contact-link"
-              href={profile.url}
-              data-external-brand-link
-            >
-              <ExternalBrandIcon url={profile.url} />
-              <span>
-                <strong>{profile.name}</strong>
-                <small>{profile.handle}</small>
-              </span>
-            </a>
-          </li>
-        ))
-      }
+      {profiles.map((profile) => (
+        <li>
+          <a
+            class="external-brand-link contact-link"
+            href={profile.url}
+            data-external-brand-link
+          >
+            <ExternalBrandIcon url={profile.url} />
+            <span>
+              <strong>{profile.name}</strong>
+              <small>{profile.handle}</small>
+            </span>
+          </a>
+        </li>
+      ))}
     </ul>
     <p class="contact-email-note">
-      <span aria-hidden="true">//</span>{text.email}{' '}
-      <a href={`mailto:${contactEmail}`}>{contactEmail}</a>
+      <span aria-hidden="true">//</span>
+      {text.email} <a href={`mailto:${contactEmail}`}>{contactEmail}</a>
     </p>
   </section>
 </Page>

@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "private": true,
   "type": "module",
-  "packageManager": "pnpm@11.22.0",
+  "packageManager": "pnpm@11.26.0+sha512.fc0e2bf890b9f983611f1ab68c0637bce914390653699f83c1a78b005ed25f2c81e77920c8fd8eee2ecf0b58b28cdcb00a84d97f69bcf7c56b2f344710238664",
   "engines": {
     "node": ">=24.0.0 <25",
     "pnpm": ">=11.18.0 <12"
@@ -23,13 +23,13 @@
     "verify:site": "pnpm verify"
   },
   "dependencies": {
-    "astro": "7.2.4"
+    "astro": "7.3.2"
   },
   "devDependencies": {
     "@astrojs/check": "0.9.10",
-    "@playwright/test": "1.62.1",
+    "@playwright/test": "1.63.0",
     "prettier": "3.9.6",
-    "prettier-plugin-astro": "0.14.1",
+    "prettier-plugin-astro": "1.0.0",
     "typescript": "6.0.3"
   }
 }

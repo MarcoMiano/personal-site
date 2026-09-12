@@ -43,22 +43,18 @@ const otherLocale: Locale = locale === 'it' ? 'en' : 'it';
     data-site-nav
   >
     <ul>
-      {
-        pageKeys
-          .filter((key) => pages[key].nav && pages[key].listed)
-          .map((key) => (
-            <li>
-              <a
-                href={getPath(locale, key)}
-                aria-current={key === page ? 'page' : undefined}
-              >
-                <span class="primary-nav__label">
-                  {pages[key].label[locale]}
-                </span>
-              </a>
-            </li>
-          ))
-      }
+      {pageKeys
+        .filter((key) => pages[key].nav && pages[key].listed)
+        .map((key) => (
+          <li>
+            <a
+              href={getPath(locale, key)}
+              aria-current={key === page ? 'page' : undefined}
+            >
+              <span class="primary-nav__label">{pages[key].label[locale]}</span>
+            </a>
+          </li>
+        ))}
     </ul>
   </nav>
 
@@ -70,11 +66,13 @@ const otherLocale: Locale = locale === 'it' ? 'en' : 'it';
       data-language-switcher
     >
       <ul>
-        <li><span aria-current="page">{locale.toUpperCase()}</span></li>
         <li>
-          <a href={getPath(otherLocale, page)} lang={otherLocale}
-            >{otherLocale.toUpperCase()}</a
-          >
+          <span aria-current="page">{locale.toUpperCase()}</span>
+        </li>
+        <li>
+          <a href={getPath(otherLocale, page)} lang={otherLocale}>
+            {otherLocale.toUpperCase()}
+          </a>
         </li>
       </ul>
     </nav>

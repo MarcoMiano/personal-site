@@ -32,16 +32,20 @@ const initialNextMode = getNextThemeMode(initialMode);
   data-label-bright={text.modes.bright}
   hidden
 >
-  <span class="theme-control__chrome" aria-hidden="true">THEME[</span>
+  <span class="theme-control__chrome" aria-hidden="true">
+    THEME[
+  </span>
   <span class="theme-control__value">
     <ThemeModeIcon mode="auto" />
     <ThemeModeIcon mode="dark" />
     <ThemeModeIcon mode="bright" />
-    <span class="visually-hidden" data-theme-control-label
-      >{text.modes[initialMode]}</span
-    >
+    <span class="visually-hidden" data-theme-control-label>
+      {text.modes[initialMode]}
+    </span>
   </span>
-  <span class="theme-control__chrome" aria-hidden="true">]</span>
+  <span class="theme-control__chrome" aria-hidden="true">
+    ]
+  </span>
 </button>
 
 <script>
