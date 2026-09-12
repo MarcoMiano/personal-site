@@ -38,12 +38,12 @@ export default defineConfig({
     },
   ],
   webServer: {
-    command: 'pnpm preview --host 127.0.0.1 --port 4323',
+    command: 'node --env-file=.env.tooling scripts/preview-csp.mjs',
     env: {
       ASTRO_PREVIEW_BACKGROUND: '0',
     },
     url: baseURL,
-    reuseExistingServer: !isCI,
+    reuseExistingServer: false,
     timeout: 60_000,
   },
 });

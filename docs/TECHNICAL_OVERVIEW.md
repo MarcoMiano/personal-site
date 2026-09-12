@@ -12,6 +12,10 @@ The explicit page files in `src/pages/` make the Italian and English route trees
 
 `BaseLayout.astro` owns document metadata and shared resources. The site header, navigation, language switcher, footer, content cards, and page-specific panels are semantic Astro components. Theme selection, command palette behavior, shortcuts, and first-session presentation are small framework-free scripts.
 
+The early theme/session bootstrap is an import-free classic script emitted as a fingerprinted asset through Vite's `?url&no-inline` import. Its parser-blocking position in the head applies the saved theme before styles and body content can paint. Storage keys remain defined in `src/lib/interactions.ts` and reach the bootstrap through data attributes on its script element. Astro's `is:inline` here preserves the external script tag verbatim; it does not embed executable code. JavaScript asset inlining is disabled in the build configuration, including for small processed component scripts.
+
+The generated site supports `script-src 'self'` without hashes or nonces. Deploy the complete generated asset set with its HTML; fingerprinted URLs change automatically when scripts change. The browser suite uses a local response header to enforce this directive, while the static gate checks every generated HTML file and treats inert JSON separately. Inline styles and development-server behavior are outside this policy check. Tightening the deployed serving policy remains a separate infrastructure change.
+
 Without JavaScript, ordinary links and content remain usable. JavaScript only adds convenience behavior, and reduced-motion preferences remove decorative motion without changing content or access.
 
 ## Content and assets

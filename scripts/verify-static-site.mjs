@@ -3,6 +3,7 @@
 import { access, readFile, readdir, stat } from 'node:fs/promises';
 import { extname, relative, resolve } from 'node:path';
 import { resolveBuildRevision } from '../src/lib/build.ts';
+import { bootSessionKey, themeStorageKey } from '../src/lib/interactions.ts';
 import {
   contactEmail,
   getIndexablePaths,
@@ -133,6 +134,149 @@ async function verifyGeneratedOutputSafety() {
   }
 
   return files.length;
+}
+
+function hasAttribute(tag, name) {
+  return new RegExp(`\\s${name}(?:\\s|=|>|/)`, 'i').test(tag);
+}
+
+function isInertJsonScript(tag) {
+  const type = attribute(tag, 'type')?.split(';', 1)[0].trim().toLowerCase();
+  return type === 'application/json' || type === 'application/ld+json';
+}
+
+async function verifyGeneratedScripts() {
+  let files;
+  try {
+    files = (await collectFiles(output)).filter(
+      (file) => extname(file).toLowerCase() === '.html',
+    );
+  } catch {
+    failures.push('CSP script scan could not inspect generated HTML');
+    return 0;
+  }
+
+  for (const file of files) {
+    const fileName = relative(output, file);
+    const html = await readFile(file, 'utf8');
+    const label = `CSP ${fileName}`;
+    const scriptMatches = [
+      ...html.matchAll(/<script\b([^>]*)>([\s\S]*?)<\/script\s*>/gi),
+    ];
+    const markup = html.replace(
+      /<script\b([^>]*)>[\s\S]*?<\/script\s*>/gi,
+      (_tag, attributes) => `<script${attributes}></script>`,
+    );
+
+    expect(
+      !/<[^>]+\son[a-z][\w:-]*\s*=/i.test(markup),
+      `${label} contains an inline event handler`,
+    );
+    expect(
+      !/<[^>]+\s(?:href|src|action|formaction|xlink:href)\s*=\s*(?:["']\s*javascript:|javascript:)/i.test(
+        markup,
+      ),
+      `${label} contains a javascript: URL`,
+    );
+    expect(!/<[^>]+\snonce\s*=/i.test(markup), `${label} contains a nonce`);
+
+    let bootstrapTag = '';
+    for (const [, attributes, contents] of scriptMatches) {
+      const openingTag = `<script${attributes}>`;
+
+      if (isInertJsonScript(openingTag)) {
+        expect(
+          !hasAttribute(openingTag, 'src'),
+          `${label} has externally sourced inert JSON data`,
+        );
+        try {
+          JSON.parse(contents);
+        } catch {
+          failures.push(`${label} has invalid inert JSON data`);
+        }
+        continue;
+      }
+
+      const source = attribute(openingTag, 'src');
+      expect(source, `${label} has an executable script without src`);
+      expect(
+        contents.trim() === '',
+        `${label} has executable inline script content`,
+      );
+      if (!source) continue;
+
+      let sourceUrl;
+      try {
+        sourceUrl = new URL(source, origin);
+      } catch {
+        failures.push(`${label} has an invalid script source ${source}`);
+        continue;
+      }
+      expect(
+        sourceUrl.origin === origin && sourceUrl.pathname.endsWith('.js'),
+        `${label} has a script source outside same-origin JavaScript assets`,
+      );
+      try {
+        const sourceStat = await stat(
+          resolve(output, sourceUrl.pathname.slice(1)),
+        );
+        expect(
+          sourceStat.isFile() && sourceStat.size > 0,
+          `${label} references an empty script asset ${source}`,
+        );
+      } catch {
+        failures.push(`${label} references missing script asset ${source}`);
+      }
+
+      if (hasAttribute(openingTag, 'data-site-bootstrap'))
+        bootstrapTag = openingTag;
+    }
+
+    expect(bootstrapTag, `${label} needs one early theme bootstrap`);
+    if (!bootstrapTag) continue;
+    expect(
+      countMatches(html, /<script\b[^>]*data-site-bootstrap[^>]*>/gi) === 1,
+      `${label} needs exactly one early theme bootstrap`,
+    );
+    expect(
+      attribute(bootstrapTag, 'data-theme-storage-key') === themeStorageKey &&
+        attribute(bootstrapTag, 'data-boot-session-key') === bootSessionKey,
+      `${label} bootstrap storage keys do not match interaction constants`,
+    );
+    const bootstrapType = attribute(bootstrapTag, 'type')?.toLowerCase();
+    expect(
+      !hasAttribute(bootstrapTag, 'async') &&
+        !hasAttribute(bootstrapTag, 'defer') &&
+        !hasAttribute(bootstrapTag, 'nomodule') &&
+        (!bootstrapType || bootstrapType === 'text/javascript'),
+      `${label} bootstrap must be a classic blocking script`,
+    );
+    const headStart = html.search(/<head\b[^>]*>/i);
+    const headEnd = html.search(/<\/head\s*>/i);
+    const bootstrapPosition = html.indexOf(bootstrapTag);
+    const firstStylePosition = html.search(
+      /<(?:style\b|link\b[^>]*\brel=["']stylesheet["'])/i,
+    );
+    const bodyPosition = html.search(/<body\b/i);
+    expect(
+      bootstrapPosition >= 0 &&
+        headStart >= 0 &&
+        bootstrapPosition < headEnd &&
+        bootstrapPosition > headStart &&
+        (firstStylePosition < 0 || bootstrapPosition < firstStylePosition) &&
+        (bodyPosition < 0 || bootstrapPosition < bodyPosition),
+      `${label} bootstrap must precede styles and body content in head`,
+    );
+  }
+
+  return files.length;
+}
+
+const generatedHtmlFileCount = await verifyGeneratedScripts();
+if (generatedHtmlFileCount > 0 && failures.length === 0) {
+  console.log(
+    `CSP script scan passed (${generatedHtmlFileCount} HTML file(s) checked).`,
+  );
 }
 
 for (const locale of locales) {
@@ -273,10 +417,6 @@ for (const locale of locales) {
         `${label} needs one attributed ${mode} theme icon`,
       );
     }
-    expect(
-      html.includes('miano.theme'),
-      `${label} is missing the early theme-preference bootstrap`,
-    );
     expect(
       countMatches(
         html,

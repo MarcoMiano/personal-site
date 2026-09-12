@@ -11,6 +11,7 @@ import {
   type PageKey,
 } from '../lib/site';
 import { bootSessionKey, themeStorageKey } from '../lib/interactions';
+import bootstrapUrl from '../scripts/bootstrap.js?url&no-inline';
 import '../styles/global.css';
 
 interface Props {
@@ -31,31 +32,13 @@ const hasHeroAside = Astro.slots.has('hero-aside');
 <html lang={locale}>
   <head>
     <meta charset="UTF-8" />
-    <script is:inline define:vars={{ themeStorageKey, bootSessionKey }}>
-      try {
-        const storedTheme = localStorage.getItem(themeStorageKey);
-        if (storedTheme === 'dark' || storedTheme === 'bright') {
-          document.documentElement.dataset.theme = storedTheme;
-        }
-      } catch {
-        // The CSS operating-system preference remains the fallback.
-      }
-
-      try {
-        const effectsDisabled =
-          matchMedia('(prefers-reduced-motion: reduce)').matches ||
-          matchMedia('(prefers-contrast: more)').matches;
-        if (
-          !effectsDisabled &&
-          sessionStorage.getItem(bootSessionKey) !== 'true'
-        ) {
-          document.documentElement.dataset.firstSessionEffect = 'active';
-          sessionStorage.setItem(bootSessionKey, 'true');
-        }
-      } catch {
-        // The page remains fully rendered when session storage is unavailable.
-      }
-    </script>
+    <!-- Keep this classic script blocking, before styles and body content. -->
+    <script
+      is:inline
+      src={bootstrapUrl}
+      data-site-bootstrap
+      data-theme-storage-key={themeStorageKey}
+      data-boot-session-key={bootSessionKey}></script>
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="description" content={pageData.description[locale]} />
     {!pageData.indexable && <meta name="robots" content="noindex,follow" />}

@@ -38,6 +38,8 @@ pnpm test:browser:all
 
 `pnpm verify:site` runs the deterministic quality gate and scans source and generated output for publication-safety violations. Browser tests cover Chromium, Firefox, and WebKit; the complete matrix runs in CI.
 
+Browser tests serve `dist/` locally with a real `Content-Security-Policy: script-src 'self'` response header. The static gate rejects executable inline scripts and checks external script assets; inert JSON data is validated separately. This verifies the built site, not the development server or the deployed serving policy. Inline styles are outside this script-policy check.
+
 ## Structure
 
 ```text
