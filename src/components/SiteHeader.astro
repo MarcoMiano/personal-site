@@ -70,7 +70,7 @@ const otherLocale: Locale = locale === 'it' ? 'en' : 'it';
           <span aria-current="page">{locale.toUpperCase()}</span>
         </li>
         <li>
-          <a href={getPath(otherLocale, page)} lang={otherLocale}>
+          <a href={getPath(otherLocale, page)} lang={otherLocale} hreflang={otherLocale}>
             {otherLocale.toUpperCase()}
           </a>
         </li>
