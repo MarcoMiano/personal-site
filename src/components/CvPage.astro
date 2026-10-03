@@ -27,6 +27,7 @@ const labels = {
     skills: 'Competenze',
     languages: 'Lingue',
     relatedProject: 'Vedi il case study collegato',
+    inProgress: 'in corso',
   },
   en: {
     profile: 'Profile',
@@ -36,6 +37,7 @@ const labels = {
     skills: 'Skills',
     languages: 'Languages',
     relatedProject: 'View the related case study',
+    inProgress: 'in progress',
   },
 } as const;
 
@@ -144,7 +146,12 @@ const copy = labels[locale];
       />
       <ul class="cv-plain-list">
         {cv.certifications.map((item) => (
-          <li>{item.name}</li>
+          <li>
+            {item.name}
+            {item.status === 'in-progress' && (
+              <span class="certification-status">{copy.inProgress}</span>
+            )}
+          </li>
         ))}
       </ul>
     </section>

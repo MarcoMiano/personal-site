@@ -98,6 +98,7 @@ const cvCertification = z.object({
   id: z.string().min(1),
   name: z.string().min(1),
   issuer: z.string().min(1),
+  status: z.enum(['completed', 'in-progress']).default('completed'),
 });
 
 const cvSkillGroup = z.object({
@@ -131,4 +132,13 @@ const cv = defineCollection({
 // Notes and Lab stay schema-ready but dormant until their first real entries.
 // Spread this map into collections when content is authored.
 export const dormantCollections = { notes, lab };
-export const collections = { projects, cv };
+const updates = defineCollection({
+  loader: glob({ base: './src/content/updates', pattern: '**/*.md' }),
+  schema: z.object({
+    ...shared,
+    publishedAt: z.iso.date(),
+    href: z.string().regex(/^\/(?!\/)/),
+  }),
+});
+
+export const collections = { projects, cv, updates };

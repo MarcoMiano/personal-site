@@ -20,7 +20,7 @@ Without JavaScript, ordinary links and content remain usable. JavaScript only ad
 
 ## Content and assets
 
-The CV is structured JSON because it is a list of typed records with shared fields. Projects, notes, and lab entries use Markdown frontmatter and typed content-collection schemas. The localized-content and case-study skills keep paired translations, attribution, and draft/index flags synchronized.
+The CV is structured JSON because it is a list of typed records with shared fields. Projects, homepage updates, notes, and lab entries use Markdown frontmatter and typed content-collection schemas. The homepage lists the five newest published updates, with localized dates and links to public content. Ongoing CV certifications use structured status values and localized highlighted labels. The localized-content and case-study skills keep paired translations, attribution, and draft/index flags synchronized.
 
 [`CONTENT_AUTHORING.md`](CONTENT_AUTHORING.md) is the operational companion for public CV and project updates: it maps the content locations, explains the publication boundary, and provides paired fictional examples. Notes and Lab remain schema-ready but dormant until a separately reviewed rendering and publication change enables them.
 

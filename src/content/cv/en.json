@@ -130,9 +130,38 @@
     }
   ],
   "certifications": [
-    { "id": "crestron-p101", "name": "CTI-P101", "issuer": "Crestron" },
-    { "id": "crestron-p201", "name": "CTI-P201", "issuer": "Crestron" },
-    { "id": "crestron-sg", "name": "CTI-SG", "issuer": "Crestron" },
+    {
+      "id": "avixa-cts",
+      "name": "AVIXA CTS",
+      "issuer": "AVIXA",
+      "status": "in-progress"
+    },
+    {
+      "id": "crestron-ccp",
+      "name": "Crestron CCP",
+      "issuer": "Crestron",
+      "status": "in-progress"
+    },
+    {
+      "id": "crestron-p101",
+      "name": "Crestron CTI-P101",
+      "issuer": "Crestron"
+    },
+    {
+      "id": "crestron-p201",
+      "name": "Crestron CTI-P201",
+      "issuer": "Crestron"
+    },
+    {
+      "id": "crestron-p301",
+      "name": "Crestron CTI-P301",
+      "issuer": "Crestron"
+    },
+    {
+      "id": "crestron-sg",
+      "name": "Crestron CTI-SG",
+      "issuer": "Crestron"
+    },
     {
       "id": "extron-eap",
       "name": "Extron Authorized Programmer (EAP)",

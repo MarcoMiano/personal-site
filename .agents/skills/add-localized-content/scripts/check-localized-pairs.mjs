@@ -3,7 +3,7 @@ import { basename, extname, resolve } from 'node:path';
 
 const root = process.cwd();
 const contentRoot = resolve(root, 'src/content');
-const markdownCollections = ['projects', 'notes', 'lab'];
+const markdownCollections = ['projects', 'updates', 'notes', 'lab'];
 const failures = [];
 const entries = [];
 

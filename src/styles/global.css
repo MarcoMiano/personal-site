@@ -955,6 +955,17 @@ h1 {
   background: var(--panel);
 }
 
+.certification-status {
+  display: inline-block;
+  margin-inline-start: 0.75rem;
+  padding: 0.1rem 0.4rem;
+  border: 1px solid currentColor;
+  color: var(--amber-strong);
+  background: var(--canvas);
+  font-size: 0.85em;
+  font-weight: 700;
+}
+
 .case-study-index {
   margin-block: clamp(3rem, 8vw, 6rem);
 }

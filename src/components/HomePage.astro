@@ -22,9 +22,30 @@ const landingProjects = projectEntries
   .sort((left, right) =>
     left.data.translationKey.localeCompare(right.data.translationKey, 'en'),
   );
+const latestUpdates = (await getCollection('updates'))
+  .filter(
+    (entry) =>
+      entry.data.locale === locale && !entry.data.draft && !entry.data.noindex,
+  )
+  .sort(
+    (left, right) =>
+      right.data.publishedAt.localeCompare(left.data.publishedAt) ||
+      left.data.translationKey.localeCompare(right.data.translationKey, 'en'),
+  )
+  .slice(0, 5);
+const dateFormatter = new Intl.DateTimeFormat(
+  locale === 'it' ? 'it-IT' : 'en-GB',
+  {
+    day: 'numeric',
+    month: 'short',
+    year: 'numeric',
+    timeZone: 'UTC',
+  },
+);
 
 const content = {
   it: {
+    updates: 'Ultimi aggiornamenti',
     systemTitle: 'Progetti selezionati.',
     systemDescription:
       'Software e integrazione AV raccontati attraverso problemi, responsabilità e risultati concreti.',
@@ -45,6 +66,7 @@ const content = {
     projects: 'Esplora i progetti',
   },
   en: {
+    updates: 'Latest updates',
     systemTitle: 'Selected projects.',
     systemDescription:
       'Software and AV integration presented through concrete problems, responsibilities, and outcomes.',
@@ -87,9 +109,35 @@ const copy = content[locale];
     </a>
   </div>
 
+  {latestUpdates.length > 0 && (
+    <section
+      class="work-section updates-section"
+      aria-labelledby="latest-updates"
+    >
+      <SectionHeading index="01" id="latest-updates" title={copy.updates} />
+      <ul class="updates-list">
+        {latestUpdates.map((entry) => (
+          <li>
+            <time datetime={entry.data.publishedAt}>
+              {dateFormatter.format(
+                new Date(`${entry.data.publishedAt}T00:00:00Z`),
+              )}
+            </time>
+            <div>
+              <h3>
+                <a href={entry.data.href}>{entry.data.title}</a>
+              </h3>
+              <p>{entry.data.summary}</p>
+            </div>
+          </li>
+        ))}
+      </ul>
+    </section>
+  )}
+
   <section class="work-section" aria-labelledby="operating-benches">
     <SectionHeading
-      index="01"
+      index={latestUpdates.length > 0 ? '02' : '01'}
       id="operating-benches"
       title={copy.systemTitle as string}
       description={copy.systemDescription as string}
@@ -110,3 +158,42 @@ const copy = content[locale];
     </div>
   </section>
 </BaseLayout>
+
+<style>
+  .updates-list {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    border-bottom: 1px solid var(--rule);
+  }
+
+  .updates-list li {
+    display: grid;
+    grid-template-columns: minmax(8rem, 0.2fr) minmax(0, 1fr);
+    gap: 1rem;
+    padding: 1rem 0;
+    border-top: 1px solid var(--rule);
+  }
+
+  .updates-list time {
+    color: var(--ink-muted);
+    font-size: 0.85rem;
+  }
+
+  .updates-list h3 {
+    margin: 0;
+    font-size: 1.05rem;
+  }
+
+  .updates-list p {
+    margin: 0.35rem 0 0;
+    color: var(--ink-muted);
+  }
+
+  @media (max-width: 40rem) {
+    .updates-list li {
+      grid-template-columns: 1fr;
+      gap: 0.35rem;
+    }
+  }
+</style>

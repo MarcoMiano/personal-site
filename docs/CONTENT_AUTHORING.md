@@ -35,6 +35,7 @@ If any date, scope, outcome, ownership claim, translation, or confidentiality bo
 | Route and interface copy | `src/lib/` and the rendering component | TypeScript/Astro | Update Italian and English values together. |
 | CV | `src/content/cv/it.json` and `src/content/cv/en.json` | JSON | Fixed `public-cv` key; matching stable IDs and order. |
 | Projects | `src/content/projects/<key>-it.md` and `<key>-en.md` | Markdown with YAML frontmatter | Matching lowercase hyphenated translation key. |
+| Homepage updates | `src/content/updates/<key>-it.md` and `<key>-en.md` | Markdown with YAML frontmatter | Matching lowercase hyphenated translation key. |
 | Notes | `src/content/notes/` | Markdown with YAML frontmatter | Dormant; adding a file does not publish it. |
 | Lab | `src/content/lab/` | Markdown with YAML frontmatter | Dormant; adding a file does not publish it. |
 
@@ -100,6 +101,17 @@ Italian and English files in a complete pair must have matching `draft` and `noi
 
 Notes and Lab have no active renderer, so their flags currently publish nothing. Their future routes must define and test equivalent behavior before either collection is enabled.
 
+## Homepage updates
+
+The homepage shows the five newest approved updates, ordered by announcement date. It displays each entry's title, summary, date, and link; Markdown body text is not rendered. The section is omitted when no published updates exist.
+
+Create matching `<key>-it.md` and `<key>-en.md` files in `src/content/updates/`. Use the shared `translationKey`, `locale`, `title`, `summary`, `draft`, and `noindex` fields, plus:
+
+- `publishedAt`: the announcement date as a quoted `YYYY-MM-DD` string, not the date a certification was earned.
+- `href`: a site-relative destination such as `/cv/` in Italian and `/en/cv/` in English. Link only to reviewed public content.
+
+Start both files with `draft: true` and `noindex: true`. After review, set both flags to `false` in both files. Draft and noindex entries are hidden from the homepage. See the paired `certification-update` files for a complete example. Updates can announce certifications, pages, or other additions without creating a new route.
+
 ## CV reference
 
 The CV uses JSON. Its two files are fixed at `src/content/cv/it.json` and `src/content/cv/en.json`. Unlike Markdown collections, the CV schema does not have `draft` or `noindex`; the routes are already public, so edit both files as one reviewed change.
@@ -160,6 +172,7 @@ Every experience group must contain `startMonth`, `duration`, or both. Prefer `s
 | `id` | Non-empty string | Stable identity shared across locales. |
 | `name` | Non-empty string | Public certification name. |
 | `issuer` | Non-empty string | Issuing organization. The current CV view does not display this field, but it remains structured data and must be accurate. |
+| `status` | `completed` (default) or `in-progress` | Ongoing certifications receive a localized highlighted label. Keep status text out of `name`. |
 
 ### Skill-group fields
 
