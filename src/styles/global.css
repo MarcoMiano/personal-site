@@ -616,6 +616,16 @@ h1 {
   text-transform: uppercase;
 }
 
+.profile-panel--with-badge {
+  grid-template-rows: auto auto 1fr;
+}
+
+.profile-panel--with-badge figcaption {
+  display: flex;
+  flex-direction: column;
+  padding-block: 0.25rem 0;
+}
+
 .hero-actions {
   display: flex;
   flex-wrap: wrap;
@@ -953,6 +963,33 @@ h1 {
   border-inline: 1px solid var(--rule-strong);
   border-bottom: 1px solid var(--rule-strong);
   background: var(--panel);
+}
+
+.cv-certification--badged {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.cv-certification__badge {
+  flex: none;
+  width: 4.5rem;
+  height: auto;
+}
+
+.certification-badge--extron {
+  aspect-ratio: 2 / 1;
+  padding: 0.125rem 0.1875rem;
+  background: #eee8d5;
+  object-fit: contain;
+  object-position: center;
+}
+
+.cv-certification__id {
+  display: block;
+  margin-block-start: 0.25rem;
+  color: var(--ink-muted);
+  font-size: 0.85em;
 }
 
 .certification-status {
@@ -1748,6 +1785,14 @@ h1 {
     align-self: end;
   }
 
+  .profile-panel--with-badge {
+    grid-template-rows: auto 1fr;
+  }
+
+  .profile-panel--with-badge figcaption {
+    align-self: stretch;
+  }
+
   .section-heading {
     grid-template-columns: 1fr;
   }
@@ -1874,6 +1919,10 @@ h1 {
 
   .profile-panel {
     grid-template-columns: 1fr;
+  }
+
+  .profile-panel--with-badge {
+    grid-template-rows: auto auto 1fr;
   }
 
   .profile-panel figcaption {

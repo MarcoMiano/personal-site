@@ -1,5 +1,12 @@
 import { expect, test } from '@playwright/test';
 
+const certificationNames = [
+  'AVIXA Certified Technology Specialist (CTS)',
+  'Extron Authorized Programmer (EAP)',
+  'Extron Control Professional (ECP)',
+  'Extron XTP Systems Engineer (XTP-E)',
+];
+
 for (const locale of ['it', 'en'] as const) {
   test(`shows updates and ongoing certifications without JavaScript (${locale})`, async ({
     browser,
@@ -15,28 +22,81 @@ for (const locale of ['it', 'en'] as const) {
 
     try {
       await page.goto(`${prefix}/`);
+      const homeBadges = page
+        .locator('.profile-panel figcaption')
+        .getByRole('link', {
+          name:
+            locale === 'it'
+              ? 'Certificazioni nel CV'
+              : 'Certifications in the CV',
+        });
+      await expect(homeBadges).toBeVisible();
+      await expect(homeBadges).toHaveAttribute(
+        'href',
+        `${prefix}/cv/#cv-certifications-heading`,
+      );
+      for (const name of certificationNames) {
+        const badge = homeBadges.getByRole('img', { name, exact: true });
+        await expect(badge).toBeVisible();
+        await expect
+          .poll(() =>
+            badge.evaluate((image) => (image as HTMLImageElement).naturalWidth),
+          )
+          .toBeGreaterThan(0);
+      }
       const updates = page.getByRole('region', { name: heading });
       await expect(updates).toBeVisible();
-      await expect(updates.locator('time')).toHaveAttribute(
+      const entries = updates.getByRole('listitem');
+      const latest = entries.first();
+      const title =
+        locale === 'it'
+          ? 'Certificazione AVIXA CTS conseguita'
+          : 'AVIXA CTS certification earned';
+      await expect(latest.locator('time')).toHaveAttribute(
+        'datetime',
+        '2026-11-23',
+      );
+      const earlier = entries.filter({ hasText: 'Crestron CTI-P301' });
+      await expect(earlier.locator('time')).toHaveAttribute(
         'datetime',
         '2026-10-03',
       );
-      await expect(updates).toContainText('Crestron CTI-P301');
-      const link = updates.getByRole('link');
-      await expect(link).toHaveAttribute('href', `${prefix}/cv/`);
+      const link = latest.getByRole('link', { name: title });
+      await expect(link).toHaveAttribute(
+        'href',
+        `${prefix}/cv/#cv-certifications-heading`,
+      );
       await link.click();
       const certifications = page.getByRole('region', {
         name: locale === 'it' ? 'Certificazioni' : 'Certifications',
       });
-      await expect(certifications.locator('.certification-status')).toHaveCount(
-        2,
-      );
-      for (const name of ['AVIXA CTS', 'Crestron CCP']) {
-        const entry = certifications
+      const cts = certifications
+        .getByRole('listitem')
+        .filter({ hasText: 'AVIXA Certified Technology Specialist (CTS)' });
+      const credentialId =
+        locale === 'it'
+          ? 'ID certificazione 415628'
+          : 'Certification ID 415628';
+      await expect(cts).toContainText(credentialId);
+      await expect(cts.locator('.certification-status')).toHaveCount(0);
+      for (const name of certificationNames) {
+        const badge = certifications
           .getByRole('listitem')
-          .filter({ hasText: name });
-        await expect(entry.locator('.certification-status')).toHaveText(status);
+          .filter({ hasText: name })
+          .locator('img');
+        await badge.scrollIntoViewIfNeeded();
+        await expect(badge).toBeVisible();
+        await expect
+          .poll(() =>
+            badge.evaluate((image) => (image as HTMLImageElement).naturalWidth),
+          )
+          .toBeGreaterThan(0);
       }
+
+      const ccp = certifications
+        .getByRole('listitem')
+        .filter({ hasText: 'Crestron CCP' });
+      await expect(ccp.locator('.certification-status')).toHaveText(status);
       await expect
         .poll(() =>
           page.evaluate(

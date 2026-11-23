@@ -24,7 +24,12 @@ const text = {
 } as const satisfies Record<Locale, Record<string, string>>;
 ---
 
-<figure class="profile-panel">
+<figure
+  class:list={[
+    'profile-panel',
+    { 'profile-panel--with-badge': Astro.slots.has('badge') },
+  ]}
+>
   <div class="module-label" aria-hidden="true">
     <span>portrait_01:</span>
     <span>.format mono_rgba</span>
@@ -51,5 +56,6 @@ const text = {
     <span aria-hidden="true" data-content-effect-visual>
       {text[locale].caption}
     </span>
+    <slot name="badge" />
   </figcaption>
 </figure>

@@ -132,9 +132,11 @@
   "certifications": [
     {
       "id": "avixa-cts",
-      "name": "AVIXA CTS",
+      "name": "AVIXA Certified Technology Specialist (CTS)",
       "issuer": "AVIXA",
-      "status": "in-progress"
+      "status": "completed",
+      "credentialId": "415628",
+      "badge": "../../assets/images/avixa-cts-badge.png"
     },
     {
       "id": "crestron-ccp",
@@ -165,17 +167,20 @@
     {
       "id": "extron-eap",
       "name": "Extron Authorized Programmer (EAP)",
-      "issuer": "Extron"
+      "issuer": "Extron",
+      "badge": "../../assets/images/extron-eap-badge.png"
     },
     {
       "id": "extron-ecp",
       "name": "Extron Control Professional (ECP)",
-      "issuer": "Extron"
+      "issuer": "Extron",
+      "badge": "../../assets/images/extron-ecp-badge.png"
     },
     {
       "id": "extron-xtp",
       "name": "Extron XTP Systems Engineer (XTP-E)",
-      "issuer": "Extron"
+      "issuer": "Extron",
+      "badge": "../../assets/images/extron-xtp-e-badge.png"
     }
   ],
   "skills": [

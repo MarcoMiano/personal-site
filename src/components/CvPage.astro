@@ -28,6 +28,7 @@ const labels = {
     languages: 'Lingue',
     relatedProject: 'Vedi il case study collegato',
     inProgress: 'in corso',
+    credentialId: 'ID certificazione',
   },
   en: {
     profile: 'Profile',
@@ -38,6 +39,7 @@ const labels = {
     languages: 'Languages',
     relatedProject: 'View the related case study',
     inProgress: 'in progress',
+    credentialId: 'Certification ID',
   },
 } as const;
 
@@ -146,11 +148,31 @@ const copy = labels[locale];
       />
       <ul class="cv-plain-list">
         {cv.certifications.map((item) => (
-          <li>
-            {item.name}
-            {item.status === 'in-progress' && (
-              <span class="certification-status">{copy.inProgress}</span>
+          <li class:list={[{ 'cv-certification--badged': item.badge }]}>
+            {item.badge && (
+              <img
+                class:list={[
+                  'cv-certification__badge',
+                  { 'certification-badge--extron': item.issuer === 'Extron' },
+                ]}
+                src={item.badge.src}
+                width={item.badge.width}
+                height={item.badge.height}
+                alt=""
+                loading="lazy"
+              />
             )}
+            <div>
+              {item.name}
+              {item.status === 'in-progress' && (
+                <span class="certification-status">{copy.inProgress}</span>
+              )}
+              {item.credentialId && (
+                <span class="cv-certification__id">
+                  {copy.credentialId} {item.credentialId}
+                </span>
+              )}
+            </div>
           </li>
         ))}
       </ul>

@@ -99,6 +99,7 @@ const cvCertification = z.object({
   name: z.string().min(1),
   issuer: z.string().min(1),
   status: z.enum(['completed', 'in-progress']).default('completed'),
+  credentialId: z.string().min(1).optional(),
 });
 
 const cvSkillGroup = z.object({
@@ -115,18 +116,21 @@ const cvLanguage = z.object({
 
 const cv = defineCollection({
   loader: glob({ base: './src/content/cv', pattern: '**/*.json' }),
-  schema: z.object({
-    translationKey: z.literal('public-cv'),
-    locale,
-    headline: z.string().min(1),
-    summary: z.string().min(1),
-    location: z.string().min(1),
-    experience: z.array(cvExperience).default([]),
-    education: z.array(cvEducation).default([]),
-    certifications: z.array(cvCertification).default([]),
-    skills: z.array(cvSkillGroup).default([]),
-    languages: z.array(cvLanguage).default([]),
-  }),
+  schema: ({ image }) =>
+    z.object({
+      translationKey: z.literal('public-cv'),
+      locale,
+      headline: z.string().min(1),
+      summary: z.string().min(1),
+      location: z.string().min(1),
+      experience: z.array(cvExperience).default([]),
+      education: z.array(cvEducation).default([]),
+      certifications: z
+        .array(cvCertification.extend({ badge: image().optional() }))
+        .default([]),
+      skills: z.array(cvSkillGroup).default([]),
+      languages: z.array(cvLanguage).default([]),
+    }),
 });
 
 // Notes and Lab stay schema-ready but dormant until their first real entries.
